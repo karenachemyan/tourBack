@@ -1,0 +1,19 @@
+import { Router } from "express";
+import TouresController from "../controllers/TouresController.js";
+import validate from "../middlewares/validate.js";
+import touresSchema from "../schema/touresSchema.js";
+import uploader from "../middlewares/uploader.js";
+
+const router = Router();
+
+router.post(
+    '/create',
+    uploader([]).fields([
+        {name: "featuredImage", maxCount: 1},
+        {name: "src"}
+    ]),
+    validate(touresSchema.create),
+    TouresController.create
+);
+
+export default router;
