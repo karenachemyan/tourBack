@@ -40,9 +40,7 @@ class TouresController{
                     quality: 80,
                 })
                 .toFile(path.join(galleryPath, s.filename + '.webp'))
-                });
-
-                
+                });                
 
             const tour = await Toures.create({
                 title,
@@ -100,6 +98,15 @@ class TouresController{
         catch(e){
             next(e)
         }
+    }
+
+    static async delete(req,res,next){
+      try{
+
+      }
+      catch(e){
+        next(e)
+      }
     }
 
 }
