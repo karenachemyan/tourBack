@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-const { INFO_EMAIL,APP_PASS, BASE_URL } = process.env;
+const { INFO_EMAIL,APP_PASS, FRONT_URL } = process.env;
 
 async function sendRegistrationEmail(user) {
     try {
@@ -17,7 +17,8 @@ async function sendRegistrationEmail(user) {
             from: INFO_EMAIL,
             to: user.email,
             subject: 'Welcome to Our Application',
-            text: `Dear ${user.firstName} ${user.lastName},\n\nYou have been successfully registered. To activate your account please click on the link below\n\nhttp://localhost:3000/activate?code=${user.veryfication}`,
+            html: `<h3>Dear ${user.firstName} ${user.lastName},</h3><p>You have been successfully registered. To activate your account please click on the link below:</p><p><a href="${FRONT_URL}/activate?code=${user.veryfication}"> Click Here </a></p>`,
+        
         };
    
         await transporter.sendMail(mailOptions);

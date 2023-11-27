@@ -17,5 +17,6 @@ router.post(
 );
 
 router.get('/getTour/:id',TouresController.getTour)
+router.delete('/delete/:id',TouresController.remove)
 
 export default router;

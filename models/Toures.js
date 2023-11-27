@@ -53,7 +53,7 @@ Toures.belongsTo(Destinations,
         onDelete: "CASCADE",
         onUpdate: 'CASCADE',
     });
-    
+
 
 Categories.hasMany(Toures, { foreignKey: "categoryId" });
 Destinations.hasMany(Toures, { foreignKey: 'destinationId' })

@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../services/sequelize.js";
 import Toures from './Toures.js'
+import Users from "./Users.js";
 
 class Rates extends Model { }
 
@@ -13,7 +14,8 @@ Rates.init({
     },
     rate: {
         type: DataTypes.INTEGER(1),
-        allowNull: false
+        allowNull: false,
+        defaultValue: 0
     }
 },
 
@@ -30,6 +32,15 @@ Rates.belongsTo(Toures,
         onDelete: "CASCADE",
         onUpdate: 'CASCADE',
     })
-Rates.hasMany(Toures, { foreignKey: "tourId" });
 
+Rates.belongsTo(Users,
+    {
+        foreignKey: "userId",
+        onDelete: "CASCADE",
+        onUpdate: 'CASCADE',
+    })
+
+Toures.hasMany(Rates, { foreignKey: "tourId" });
+Users.hasMany(Rates, { foreignKey: "userId" });
+//Rates.sync({alter:true,logging:true})
 export default Rates;
