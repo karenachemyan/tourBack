@@ -1,6 +1,10 @@
 import { Categories, Destinations, Galleries, TourSchedules, Toures } from "../models";
 import path from "path";
 import sharp from "sharp";
+import sequelize from "../services/sequelize";
+import HttpError from "http-errors";
+
+const {BASE_URL} = process.env;
 
 class TouresController{
 
@@ -40,9 +44,7 @@ class TouresController{
                     quality: 80,
                 })
                 .toFile(path.join(galleryPath, s.filename + '.webp'))
-                });
-
-                
+                });                
 
             const tour = await Toures.create({
                 title,
@@ -68,6 +70,8 @@ class TouresController{
                 })));
               }
 
+              
+
             const createdTour = await Toures.findOne({
                 where: { id: tour.id },
                 include: [
@@ -84,10 +88,15 @@ class TouresController{
                   {
                     model: Galleries,
                     required: true, 
-                    attributes: ['src']
-                  }
+                    attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/', src)`), 'src']]
+                  },
+                  {
+                    model: TourSchedules,
+                    required: true, 
+                    attributes: ['date']
+                  },
                 ],
-                attributes: ['id', 'title', 'description', 'price', 'duration', 'featuredImage', 'categoryId', 'destinationId']
+                attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/', featuredImage)`), 'featuredImage'], 'categoryId', 'destinationId']
               })
 
 
@@ -100,6 +109,65 @@ class TouresController{
         catch(e){
             next(e)
         }
+    }
+
+    static async delete(req,res,next){
+      try{
+
+      }
+      catch(e){
+        next(e)
+      }
+    }
+
+    static async getTour(req,res,next){
+      try{
+
+        const {id} = req.params;
+        const tour = await Toures.findOne({
+          where: { id },
+          include: [
+            {
+              model: Categories,
+              required: true, 
+              attributes: ['title']
+            },
+            {
+              model: Destinations,
+              required: true, 
+              attributes: ['title']
+            },
+            {
+              model: Galleries,
+              required: true, 
+              attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/', src)`), 'src']]
+            },
+            {
+              model: TourSchedules,
+              required: true, 
+              attributes: ['date']
+            },
+          ],
+          attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/', featuredImage)`), 'featuredImage'], 'categoryId', 'destinationId']
+        })
+
+        if(!tour){
+          throw HttpError(422, {
+            errors: {
+                error: 'No Tour found'
+            }
+        })
+        }
+
+        res.json({
+          status:'ok',
+          tour
+        })
+
+      }
+      catch(e){
+        next(e)
+      }
     }
 
 }

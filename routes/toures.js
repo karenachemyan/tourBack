@@ -16,4 +16,6 @@ router.post(
     TouresController.create
 );
 
+router.get('/getTour/:id',TouresController.getTour)
+
 export default router;
