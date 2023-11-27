@@ -1,5 +1,4 @@
 import sendRegistrationEmail from "../helper/sendMail";
-import { Rates, Users } from "../models";
 import HttpError from "http-errors";
 import JWT from "jsonwebtoken";
 
@@ -14,13 +13,10 @@ class UsersController {
             const { firstName, lastName, email, password } = req.body;
 
             const userExists = await Users.findOne({
-                where: { email },
-                include: [{
-                    model: Rates,
-                    required: true,
-                    attributes: []
-                  }]
+                where: { email },                
             });
+
+            console.log(userExists)
 
             if (userExists) {
                 throw HttpError(422, {

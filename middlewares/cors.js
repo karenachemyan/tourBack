@@ -1,7 +1,6 @@
-import axios from "axios";
-
 const ALLOW_ORIGINS = [
   'http://localhost:3000',  
+  'http://localhost:8081',
 ];
 
 export default function cors(req, res, next) {

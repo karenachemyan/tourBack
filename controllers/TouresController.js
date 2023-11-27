@@ -188,7 +188,7 @@ class TouresController {
           {
             model: Galleries,
             required: true,
-            attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/', src)`), 'src']]
+            attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/tour_${id}/', src)`), 'src']]
           },
           {
             model: TourSchedules,
