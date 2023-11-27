@@ -22,7 +22,7 @@ export default function authorization(req, res, next) {
       next();
       return;
     }
-    if (requestPath.includes('PATCH:/categories/update/') || requestPath.includes('DELETE:/categories/delete/')) {
+    if (requestPath.includes('PATCH:/categories/update/') || requestPath.includes('DELETE:/categories/delete/') ||  requestPath.includes('GET:/toures/getTour/')) {
       next();
       return;
     }

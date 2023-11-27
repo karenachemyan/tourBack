@@ -30,6 +30,12 @@ TourSchedules.belongsTo(Toures,
         onDelete: "CASCADE",
         onUpdate: 'CASCADE',
     })
+Toures.hasMany(TourSchedules,
+    {
+        foreignKey: 'tourId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    });
 TourSchedules.hasMany(Toures, { foreignKey: "tourId" });
 
 export default TourSchedules;

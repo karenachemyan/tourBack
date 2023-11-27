@@ -99,8 +99,6 @@ class CategoriesController {
                 await category.update({ title });
             }
 
-
-
             res.json({
                 status: 'ok',
                 category
