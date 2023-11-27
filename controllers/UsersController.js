@@ -1,6 +1,7 @@
 import sendRegistrationEmail from "../helper/sendMail";
 import HttpError from "http-errors";
 import JWT from "jsonwebtoken";
+import { Users } from "../models";
 
 const { JWT_SECRET } = process.env;
 
@@ -15,8 +16,6 @@ class UsersController {
             const userExists = await Users.findOne({
                 where: { email },                
             });
-
-            console.log(userExists)
 
             if (userExists) {
                 throw HttpError(422, {
