@@ -36,6 +36,5 @@ Toures.hasMany(TourSchedules,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
     });
-TourSchedules.hasMany(Toures, { foreignKey: "tourId" });
 
 export default TourSchedules;

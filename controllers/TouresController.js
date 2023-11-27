@@ -5,6 +5,7 @@ import sequelize from "../services/sequelize";
 import HttpError from "http-errors";
 import resizeImages from "../helper/resizeImages";
 import fs from "fs/promises";
+import fss from "fs"
 
 const { BASE_URL } = process.env;
 
@@ -42,8 +43,8 @@ class TouresController {
 
       const tourFolder = `public/toures/gallery/tour_${tour.id}`
 
-      if (!fs.existsSync(tourFolder)) {
-        fs.mkdirSync(tourFolder)
+      if (!fss.existsSync(tourFolder)) {
+        fss.mkdirSync(tourFolder)
       }
 
       const root = path.resolve('public/toures');
@@ -110,32 +111,7 @@ class TouresController {
     try {
 
       const { id } = req.params;
-      const removedTour = await Toures.findOne({
-        where: { id },
-        include: [
-          {
-            model: Categories,
-            required: true,
-            attributes: ['title']
-          },
-          {
-            model: Destinations,
-            required: true,
-            attributes: ['title']
-          },
-          {
-            model: Galleries,
-            required: true,
-            attributes: ['src']
-          },
-          {
-            model: TourSchedules,
-            required: true,
-            attributes: ['date']
-          },
-        ],
-        attributes: ['id', 'title', 'description', 'price', 'duration', 'featuredImage', 'categoryId', 'destinationId']
-      })
+      const removedTour = await Toures.findByPk(id)
 
       if (!removedTour) {
         throw HttpError(422, {
@@ -144,13 +120,14 @@ class TouresController {
           }
         })
       }
+      const ext = path.extname(removedTour.featuredImage)
       const featuredPath = path.resolve('public/toures');
       const galleryPath = path.resolve(`public/toures/gallery/tour_${id}`)
 
       if (removedTour.featuredImage) {
        await fs.unlink(path.join(featuredPath, removedTour.featuredImage));
-       await fs.unlink(path.join(featuredPath, removedTour.featuredImage + '@2x.jpg'));
-       await fs.unlink(path.join(featuredPath, removedTour.featuredImage + '@3x.jpg'));
+       await fs.unlink(path.join(featuredPath, removedTour.featuredImage + `@2x${ext}`));
+       await fs.unlink(path.join(featuredPath, removedTour.featuredImage + `@3x${ext}`));
       }
 
       await fs.rm(galleryPath, { recursive: true, force: true })
