@@ -1,6 +1,7 @@
 import { Categories, Destinations, Galleries, TourSchedules, Toures } from "../models";
 import path from "path";
 import sharp from "sharp";
+import sequelize from "../services/sequelize";
 
 class TouresController{
 
@@ -66,6 +67,8 @@ class TouresController{
                 })));
               }
 
+              const {BASE_URL} = process.env;
+
             const createdTour = await Toures.findOne({
                 where: { id: tour.id },
                 include: [
@@ -82,10 +85,10 @@ class TouresController{
                   {
                     model: Galleries,
                     required: true, 
-                    attributes: ['src']
+                    attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/', src)`), 'src']]
                   }
                 ],
-                attributes: ['id', 'title', 'description', 'price', 'duration', 'featuredImage', 'categoryId', 'destinationId']
+                attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/', featuredImage)`), 'featuredImage'], 'categoryId', 'destinationId']
               })
 
 
