@@ -199,6 +199,15 @@ class TouresController {
     }
   }
 
+  static async getTouresByDestination(req,res,next){
+    try{
+
+    }
+    catch(e){
+      next(e)
+    }
+  }
+
 }
 
 export default TouresController

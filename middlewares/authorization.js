@@ -10,6 +10,8 @@ const EXCLUDES = [
   'POST:/categories/create',
   'GET:/categories/list',
   'POST:/toures/create',
+  'POST:/destinations/add',
+  'GET:/destinations/list',
 ];
 
 export default function authorization(req, res, next) {
@@ -22,7 +24,7 @@ export default function authorization(req, res, next) {
       next();
       return;
     }
-    if (requestPath.includes('PATCH:/categories/update/') || requestPath.includes('DELETE:/categories/delete/') ||  requestPath.includes('GET:/toures/getTour/') || requestPath.includes('DELETE:/toures/delete/')) {
+    if (requestPath.includes('PATCH:/categories/update/') || requestPath.includes('DELETE:/categories/delete/') ||  requestPath.includes('GET:/toures/getTour/') || requestPath.includes('DELETE:/toures/delete/') || requestPath.includes('PUT:/destinations/update/') || requestPath.includes('DELETE:/destinations/delete/') || requestPath.includes('GET:/destinations/getById/')) {
       next();
       return;
     }
