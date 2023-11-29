@@ -1,2 +1,2 @@
-# Ignore models directory in Sequelize
+# Ignore modules directory
 node_modules/
