@@ -7,6 +7,7 @@ const EXCLUDES = [
   'POST:/users/register',
   'POST:/users/login',
   'POST:/users/activate',
+  'POST:/users/oauth',
   'POST:/categories/create',
   'GET:/categories/list',
   'POST:/toures/create',

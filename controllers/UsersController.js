@@ -2,6 +2,7 @@ import sendRegistrationEmail from "../helper/sendMail";
 import HttpError from "http-errors";
 import JWT from "jsonwebtoken";
 import { Users } from "../models";
+import { OAuth2Client } from "google-auth-library";
 
 const { JWT_SECRET } = process.env;
 
@@ -14,13 +15,13 @@ class UsersController {
             const { firstName, lastName, email, password } = req.body;
 
             const userExists = await Users.findOne({
-                where: { email },                
+                where: { email },
             });
 
             if (userExists) {
-                throw HttpError(422, {
+                throw HttpError(409, {
                     errors: {
-                        email: 'Already registered'
+                        exists: 'Already registered'
                     }
                 })
             }
@@ -90,21 +91,20 @@ class UsersController {
 
     static async login(req, res, next) {
         try {
-
             const { email, password } = req.body;
 
             const user = await Users.findOne({
                 where: {
                     email,
                     password: Users.passwordHash(password),
-                    status: 'active'
+                    status: 'active',
                 },
                 attributes: {
-                    exclude: ['veryfication', 'createdAt','updatedAt']
-                }
+                    exclude: ['veryfication', 'createdAt', 'updatedAt'],
+                },
             });
 
-            if(!user){
+            if (!user) {
                 throw HttpError(404, 'Invalid email or password');
             }
 
@@ -113,30 +113,79 @@ class UsersController {
             res.json({
                 status: 'ok',
                 user,
-                token
-            })
-
-
+                token,
+            });
         }
         catch (e) {
             next(e);
         }
     }
 
-    static async profile(req,res,next){
-        try{
+    static async oauth(req, res, next) {
+        try {
+            const { googleToken } = req.body;
+            let token, user
+            console.log(googleToken)
 
-            const userId = req.userId; 
+            if (googleToken) {
+
+                const client = new OAuth2Client('40153693711-ajrviope1cfv0g0e9knenah2tpok0m2j.apps.googleusercontent.com');
+                const ticket = await client.verifyIdToken({
+                    idToken: googleToken,
+                    audience: '40153693711-ajrviope1cfv0g0e9knenah2tpok0m2j.apps.googleusercontent.com',
+                });
+                const payload = ticket.getPayload();
+
+                console.log(payload)
+
+                const email = payload.email;
+
+                 user = await Users.findOne({ where: { email } });
+               
+                if (!user) {
+
+                     user = await Users.create({
+                        firstName: payload.given_name,
+                        lastName: payload.family_name,
+                        email: payload.email,
+                        photo: payload.picture,
+                        status:'active'
+                    })
+                     token = JWT.sign({ userId: user.id }, JWT_SECRET);
+                }
+
+                else {
+                    token = JWT.sign({ userId: user.id }, JWT_SECRET);
+                }
+
+
+
+                res.json({
+                    status: 'ok',
+                    user,
+                    token,
+                });
+            }
+        }
+        catch (e) {
+            next(e)
+        }
+    }
+
+    static async profile(req, res, next) {
+        try {
+
+            const userId = req.userId;
             const userProfile = await Users.findByPk(userId, {
-                attributes: { exclude: ['veryfication', 'createdAt','updatedAt'] }
+                attributes: { exclude: ['veryfication', 'createdAt', 'updatedAt'] }
             });
 
             res.json({
-                status:'ok',
+                status: 'ok',
                 userProfile
             })
         }
-        catch(e){
+        catch (e) {
             next(e)
         }
     }
