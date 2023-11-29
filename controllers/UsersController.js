@@ -18,7 +18,7 @@ class UsersController {
             });
 
             if (userExists) {
-                throw HttpError(422, {
+                throw HttpError(409, {
                     errors: {
                         email: 'Already registered'
                     }
@@ -105,7 +105,11 @@ class UsersController {
             });
 
             if(!user){
-                throw HttpError(404, 'Invalid email or password');
+                throw HttpError(404, {
+                    errors:{
+                        message:'Invalid email or password'
+                    }
+                });
             }
 
             const token = JWT.sign({ userId: user.id }, JWT_SECRET);
@@ -126,7 +130,7 @@ class UsersController {
     static async profile(req,res,next){
         try{
 
-            const userId = req.userId; 
+            const userId = req.userId;
             const userProfile = await Users.findByPk(userId, {
                 attributes: { exclude: ['veryfication', 'createdAt','updatedAt'] }
             });
