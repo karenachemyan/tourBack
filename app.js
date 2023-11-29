@@ -5,6 +5,7 @@ import HttpError from "http-errors";
 import authorization from "./middlewares/authorization.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import cors from "./middlewares/cors.js";
+import Users from "./models/Users.js";
 
 const app = express();
 
@@ -23,6 +24,6 @@ app.use((req, res, next) => {
 
 app.use(errorHandler)
 
-app.listen(4000, '127.0.0.1', () => {
+app.listen(4000,  () => {
   console.log('server started ...')
 })
