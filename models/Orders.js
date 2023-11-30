@@ -17,6 +17,14 @@ Orders.init({
     totalAmount: {
         type: DataTypes.FLOAT(10, 2),
         allowNull: false,
+    },
+    participants:{
+        type: DataTypes.INTEGER(3),
+        defaultValue:0
+    },
+    gid:{
+        type:DataTypes.BOOLEAN,
+        defaultValue:false
     }
 
 },

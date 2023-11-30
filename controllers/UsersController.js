@@ -100,6 +100,7 @@ class UsersController {
                 },
                 attributes: {
                     exclude: ['veryfication', 'createdAt', 'updatedAt'],
+                    role:'user'
                 },
             });
 
@@ -152,7 +153,8 @@ class UsersController {
                         lastName: payload.family_name,
                         email: payload.email,
                         photo: payload.picture,
-                        status:'active'
+                        status:'active',
+                        isOauth:true
                     })
                      token = JWT.sign({ userId: user.id }, JWT_SECRET);
                 }

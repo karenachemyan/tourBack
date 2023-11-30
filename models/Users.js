@@ -21,7 +21,7 @@ class Users extends Model {
         firstName: 'Karen',
         lastName: 'Achemyan',
         email: 'achemyankaren@gmail.com',
-        password: '123456',
+        password: '123456789',
         role: 'admin'
       }
     })
@@ -93,6 +93,10 @@ Users.init({
     type: DataTypes.STRING,
     allowNull: true,
   },
+  isOauth:{
+    type:DataTypes.BOOLEAN,
+    defaultValue:false
+  }
 },
   {
     sequelize,
