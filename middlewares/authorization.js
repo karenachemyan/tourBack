@@ -25,7 +25,7 @@ export default function authorization(req, res, next) {
       next();
       return;
     }
-    if (requestPath.includes('PATCH:/categories/update/') || requestPath.includes('DELETE:/categories/delete/') ||  requestPath.includes('GET:/toures/getTour/') || requestPath.includes('DELETE:/toures/delete/') || requestPath.includes('PUT:/destinations/update/') || requestPath.includes('DELETE:/destinations/delete/') || requestPath.includes('GET:/destinations/getById/')) {
+    if (requestPath.includes('PATCH:/categories/update/') || requestPath.includes('DELETE:/categories/delete/') ||  requestPath.includes('GET:/toures/getTour/') || requestPath.includes('DELETE:/toures/delete/') || requestPath.includes('PUT:/destinations/update/') || requestPath.includes('DELETE:/destinations/delete/') || requestPath.includes('GET:/destinations/getById/') || requestPath.includes('POST:/toursteps/create/') || requestPath.includes('PUT:/toursteps/update/') || requestPath.includes('DELETE:/toursteps/delete/')) {
       next();
       return;
     }

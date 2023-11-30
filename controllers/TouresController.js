@@ -1,4 +1,4 @@
-import { Categories, Destinations, Galleries, Rates, TourSchedules, Toures } from "../models";
+import { Categories, Destinations, Galleries, Rates, TourSchedules, TourSteps, Toures } from "../models";
 import path from "path";
 import sharp from "sharp";
 import sequelize from "../services/sequelize";
@@ -91,6 +91,7 @@ class TouresController {
             required: true,
             attributes: ['date']
           },
+          
         ],
         attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/', featuredImage)`), 'featuredImage'], 'categoryId', 'destinationId']
       })
@@ -161,7 +162,8 @@ class TouresController {
             model: Destinations,
             required: true,
             attributes: ['title']
-          },          
+          }, 
+                   
           {
             model: Galleries,
             required: true,
@@ -171,6 +173,11 @@ class TouresController {
             model: TourSchedules,
             required: true,
             attributes: ['date']
+          },
+          {
+            model: TourSteps,
+            required: false,
+            attributes: ['title','description']
           },
           
         ],
