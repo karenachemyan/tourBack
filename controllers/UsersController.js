@@ -96,8 +96,7 @@ class UsersController {
             const user = await Users.findOne({
                 where: {
                     email,
-                    password: Users.passwordHash(password),
-                    status: 'active',
+                    password: Users.passwordHash(password)
                 },
                 attributes: {
                     exclude: ['veryfication', 'createdAt', 'updatedAt'],
@@ -106,6 +105,10 @@ class UsersController {
 
             if (!user) {
                 throw HttpError(404, 'Invalid email or password');
+            }
+
+            else if(user.status !== 'active'){
+                throw HttpError(404, "You didn't activate your account");
             }
 
             const token = JWT.sign({ userId: user.id }, JWT_SECRET);
