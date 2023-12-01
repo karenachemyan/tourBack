@@ -1,4 +1,4 @@
-export { default as Users } from './Users.js'
+export {default as Users} from './Users.js'
 export {default as Categories} from './Categories.js'
 export {default as Destinations} from './Destinations.js'
 export {default as Toures} from './Toures.js'
