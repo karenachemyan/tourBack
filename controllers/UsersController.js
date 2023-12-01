@@ -1,10 +1,11 @@
-import sendRegistrationEmail from "../helper/sendMail";
+import sendRegistrationEmail from "../helper/sendRegistrationEmail.js";
 import HttpError from "http-errors";
 import JWT from "jsonwebtoken";
-import { Users } from "../models";
-import { OAuth2Client } from "google-auth-library";
+import {Users} from "../models";
+import {OAuth2Client} from "google-auth-library";
+import sendEmailVerificationCode from "../helper/sendEmailVerificationCode.js";
 
-const { JWT_SECRET } = process.env;
+const {JWT_SECRET} = process.env;
 
 
 class UsersController {
@@ -12,10 +13,10 @@ class UsersController {
     static async register(req, res, next) {
         try {
 
-            const { firstName, lastName, email, password } = req.body;
+            const {firstName, lastName, email, password} = req.body;
 
             const userExists = await Users.findOne({
-                where: { email },
+                where: {email},
             });
 
             if (userExists) {
@@ -26,7 +27,7 @@ class UsersController {
                 })
             }
 
-            const veryfication = JWT.sign({ email: email }, JWT_SECRET);
+            const veryfication = JWT.sign({email: email}, JWT_SECRET);
 
             const newUser = await Users.create({
                 firstName, lastName, email, password, veryfication: veryfication
@@ -45,14 +46,13 @@ class UsersController {
 
     static async activate(req, res, next) {
         try {
-            const { code } = req.body;
+            const {code} = req.body;
             let email;
 
             try {
                 const decodedEmail = JWT.verify(code, JWT_SECRET);
                 email = decodedEmail.email;
-            }
-            catch (jwtError) {
+            } catch (jwtError) {
                 throw HttpError(422, {
                     errors: {
                         code: 'Invalid Verification Code'
@@ -61,7 +61,7 @@ class UsersController {
             }
 
             const userExists = await Users.findOne({
-                where: { veryfication: code }
+                where: {veryfication: code}
             });
 
             if (!userExists || userExists.email !== email) {
@@ -73,9 +73,9 @@ class UsersController {
             }
 
             await Users.update(
-                { status: 'active' },
+                {status: 'active'},
                 {
-                    where: { email },
+                    where: {email},
                 })
 
             res.json({
@@ -83,15 +83,14 @@ class UsersController {
                 email,
             })
 
-        }
-        catch (e) {
+        } catch (e) {
             next(e)
         }
     }
 
     static async login(req, res, next) {
         try {
-            const { email, password } = req.body;
+            const {email, password} = req.body;
 
             const user = await Users.findOne({
                 where: {
@@ -100,34 +99,31 @@ class UsersController {
                 },
                 attributes: {
                     exclude: ['veryfication', 'createdAt', 'updatedAt'],
-                    role:'user'
+                    role: 'user'
                 },
             });
 
             if (!user) {
                 throw HttpError(404, 'Invalid email or password');
-            }
-
-            else if(user.status !== 'active'){
+            } else if (user.status !== 'active') {
                 throw HttpError(404, "You didn't activate your account");
             }
 
-            const token = JWT.sign({ userId: user.id }, JWT_SECRET);
+            const token = JWT.sign({userId: user.id}, JWT_SECRET);
 
             res.json({
                 status: 'ok',
                 user,
                 token,
             });
-        }
-        catch (e) {
+        } catch (e) {
             next(e);
         }
     }
 
     static async oauth(req, res, next) {
         try {
-            const { googleToken } = req.body;
+            const {googleToken} = req.body;
             let token, user
             console.log(googleToken)
 
@@ -135,7 +131,7 @@ class UsersController {
 
                 const client = new OAuth2Client('40153693711-ajrviope1cfv0g0e9knenah2tpok0m2j.apps.googleusercontent.com');
                 const ticket = await client.verifyIdToken({
-                    idToken: googleToken.replace('Bearer ',''),
+                    idToken: googleToken.replace('Bearer ', ''),
                     audience: '40153693711-ajrviope1cfv0g0e9knenah2tpok0m2j.apps.googleusercontent.com',
                 });
                 const payload = ticket.getPayload();
@@ -144,25 +140,22 @@ class UsersController {
 
                 const email = payload.email;
 
-                 user = await Users.findOne({ where: { email } });
-               
+                user = await Users.findOne({where: {email}});
+
                 if (!user) {
 
-                     user = await Users.create({
+                    user = await Users.create({
                         firstName: payload.given_name,
                         lastName: payload.family_name,
                         email: payload.email,
                         photo: payload.picture,
-                        status:'active',
-                        isOauth:true
+                        status: 'active',
+                        isOauth: true
                     })
-                     token = JWT.sign({ userId: user.id }, JWT_SECRET);
+                    token = JWT.sign({userId: user.id}, JWT_SECRET);
+                } else {
+                    token = JWT.sign({userId: user.id}, JWT_SECRET);
                 }
-
-                else {
-                    token = JWT.sign({ userId: user.id }, JWT_SECRET);
-                }
-
 
 
                 res.json({
@@ -171,8 +164,7 @@ class UsersController {
                     token,
                 });
             }
-        }
-        catch (e) {
+        } catch (e) {
             next(e)
         }
     }
@@ -182,22 +174,21 @@ class UsersController {
 
             const userId = req.userId;
             const userProfile = await Users.findByPk(userId, {
-                attributes: { exclude: ['veryfication', 'createdAt', 'updatedAt'] }
+                attributes: {exclude: ['veryfication', 'createdAt', 'updatedAt']}
             });
 
             res.json({
                 status: 'ok',
                 userProfile
             })
-        }
-        catch (e) {
+        } catch (e) {
             next(e)
         }
     }
 
-    static async adminLogin(req,res,next){
+    static async adminLogin(req, res, next) {
         try {
-            const { email, password } = req.body;
+            const {email, password} = req.body;
 
             const user = await Users.findOne({
                 where: {
@@ -206,27 +197,115 @@ class UsersController {
                 },
                 attributes: {
                     exclude: ['veryfication', 'createdAt', 'updatedAt'],
-                    role:'admin'
+                    role: 'admin'
                 },
             });
 
             if (!user) {
                 throw HttpError(404, 'Invalid email or password');
-            }           
+            }
 
-            const token = JWT.sign({ userId: user.id }, JWT_SECRET);
+            const token = JWT.sign({userId: user.id}, JWT_SECRET);
 
             res.json({
                 status: 'ok',
                 user,
                 token,
             });
-        }
-        catch (e) {
+        } catch (e) {
             next(e);
         }
-    
+
     }
+
+    static async sendPasswordRecoveryCode(req, res, next) {
+        try {
+
+            const {email} = req.body;
+
+            const user = await Users.findOne({
+                where: {email},
+            });
+
+            if (!user) {
+                throw HttpError(404, {
+                    errors: {
+                        email: 'User With That Email Not Found'
+                    }
+                })
+            }
+            // XXX-XXX veryfication code
+            const veryfication = 100000 + Math.random() * 900000;
+
+            await user.update({"veryfication": veryfication});
+
+            await user.save();
+
+            await sendEmailVerificationCode(user);
+
+            res.json({
+                status: "ok",
+                message: "Verification Code was sent to your email",
+                user,
+            })
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    static async validatePasswordRecoveryCode(req, res, next) {
+        try {
+
+            const {email, veryfication} = req.body;
+
+            const user = await Users.findOne({
+                where: {email, veryfication},
+            });
+
+            if (!user) {
+                throw HttpError(400, {
+                    errors: {
+                        exists: 'Wrong verification Code'
+                    }
+                })
+            }
+
+            res.json({
+                status: "ok",
+                user
+            })
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    static async oldPasswordUpdate(req, res, next) {
+        try {
+
+            const {email, newPassword} = req.body;
+
+            const user = await Users.findOne({
+                where: {email},
+            });
+
+            if (!user) {
+                throw HttpError(404, {
+                    errors: {
+                        exists: 'User Not Found'
+                    }
+                })
+            }
+            await user.update({"password": Users.passwordHash(newPassword)});
+            await user.save();
+            res.json({
+                status: "ok",
+                user
+            })
+        } catch (e) {
+            next(e)
+        }
+    }
+
 
 }
 
