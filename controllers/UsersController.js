@@ -195,6 +195,39 @@ class UsersController {
         }
     }
 
+    static async adminLogin(req,res,next){
+        try {
+            const { email, password } = req.body;
+
+            const user = await Users.findOne({
+                where: {
+                    email,
+                    password: Users.passwordHash(password)
+                },
+                attributes: {
+                    exclude: ['veryfication', 'createdAt', 'updatedAt'],
+                    role:'admin'
+                },
+            });
+
+            if (!user) {
+                throw HttpError(404, 'Invalid email or password');
+            }           
+
+            const token = JWT.sign({ userId: user.id }, JWT_SECRET);
+
+            res.json({
+                status: 'ok',
+                user,
+                token,
+            });
+        }
+        catch (e) {
+            next(e);
+        }
+    
+    }
+
 }
 
 export default UsersController

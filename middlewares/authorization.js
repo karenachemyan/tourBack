@@ -6,12 +6,10 @@ const { JWT_SECRET } = process.env;
 const EXCLUDES = [
   'POST:/users/register',
   'POST:/users/login',
+  'POST:/users/adminLogin',
   'POST:/users/activate',
-  'POST:/users/oauth',
-  'POST:/categories/create',
-  'GET:/categories/list',
-  'POST:/toures/create',
-  'POST:/destinations/add',
+  'POST:/users/oauth',  
+  'GET:/categories/list',    
   'GET:/destinations/list',
 ];
 
@@ -25,7 +23,7 @@ export default function authorization(req, res, next) {
       next();
       return;
     }
-    if (requestPath.includes('PATCH:/categories/update/') || requestPath.includes('DELETE:/categories/delete/') ||  requestPath.includes('GET:/toures/getTour/') || requestPath.includes('DELETE:/toures/delete/') || requestPath.includes('PUT:/destinations/update/') || requestPath.includes('DELETE:/destinations/delete/') || requestPath.includes('GET:/destinations/getById/') || requestPath.includes('POST:/toursteps/create/') || requestPath.includes('PUT:/toursteps/update/') || requestPath.includes('DELETE:/toursteps/delete/')) {
+    if (requestPath.includes('GET:/toures/getTour/')|| requestPath.includes('GET:/destinations/getById/')|| requestPath.includes('GET:/toures/toursByDestination/') || requestPath.includes('GET:/toures/getTouresByCategory/')) {
       next();
       return;
     }

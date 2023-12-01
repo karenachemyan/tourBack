@@ -20,5 +20,7 @@ router.get('/profile',UsersController.profile)
 
 router.post('/oauth',UsersController.oauth)
 
+router.post('/adminLogin',validate(usersSchema.login),UsersController.adminLogin)
+
 
 export default router;

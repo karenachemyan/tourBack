@@ -209,10 +209,122 @@ class TouresController {
   static async getTouresByDestination(req,res,next){
     try{
 
+      const {destId} = req.params;
+
+      const tours = await Toures.findAll({
+        where:{destinationId:destId},
+        include: [
+          {
+            model: Categories,
+            required: true,
+            attributes: ['title']
+          },
+          {
+            model: Destinations,
+            required: true,
+            attributes: ['title']
+          }, 
+                   
+          {
+            model: Galleries,
+            required: true,
+            attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/tour_', Toures.id, '/', src)`), 'src']]
+          },
+          {
+            model: TourSchedules,
+            required: true,
+            attributes: ['date']
+          },
+          {
+            model: TourSteps,
+            required: false,
+            attributes: ['title','description']
+          },
+          
+        ],
+        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/', featuredImage)`), 'featuredImage'],[
+          sequelize.literal(`(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = Toures.id)`), 
+          'rating']],
+      })
+
+      if(tours.length === 0){
+        throw HttpError(422, {
+          errors: {
+            error: 'No Tours found'
+          }
+        })
+      }
+
+      res.json({
+        status:'ok',
+        tours
+      })
+
     }
     catch(e){
       next(e)
     }
+  }
+
+  static async getTouresByCategory(req,res,next){
+    try{
+      
+      const {catId} = req.params;
+
+      const tours = await Toures.findAll({
+        where:{categoryId:catId},
+        include: [
+          {
+            model: Categories,
+            required: true,
+            attributes: ['title']
+          },
+          {
+            model: Destinations,
+            required: true,
+            attributes: ['title']
+          }, 
+                   
+          {
+            model: Galleries,
+            required: true,
+            attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/tour_', Toures.id, '/', src)`), 'src']]
+          },
+          {
+            model: TourSchedules,
+            required: true,
+            attributes: ['date']
+          },
+          {
+            model: TourSteps,
+            required: false,
+            attributes: ['title','description']
+          },
+          
+        ],
+        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/', featuredImage)`), 'featuredImage'],[
+          sequelize.literal(`(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = Toures.id)`), 
+          'rating']],
+      })
+
+      if(tours.length === 0){
+        throw HttpError(422, {
+          errors: {
+            error: 'No Tours found'
+          }
+        })
+      }
+
+      res.json({
+        status:'ok',
+        tours
+      })
+
+    }
+    catch(e){
+      next(e)
+    }
+
   }
 
 }

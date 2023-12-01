@@ -22,7 +22,8 @@ class Users extends Model {
         lastName: 'Achemyan',
         email: 'achemyankaren@gmail.com',
         password: '123456789',
-        role: 'admin'
+        role: 'admin',
+        status:'active'
       }
     })
 
