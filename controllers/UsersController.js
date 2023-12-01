@@ -135,7 +135,7 @@ class UsersController {
 
                 const client = new OAuth2Client('40153693711-ajrviope1cfv0g0e9knenah2tpok0m2j.apps.googleusercontent.com');
                 const ticket = await client.verifyIdToken({
-                    idToken: googleToken,
+                    idToken: googleToken.replace('Bearer ',''),
                     audience: '40153693711-ajrviope1cfv0g0e9knenah2tpok0m2j.apps.googleusercontent.com',
                 });
                 const payload = ticket.getPayload();

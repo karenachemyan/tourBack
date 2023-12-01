@@ -30,7 +30,7 @@ export default function authorization(req, res, next) {
 
     const { authorization } = req.headers;
 
-    const { userId } = jwt.verify(authorization, JWT_SECRET)
+    const { userId } = jwt.verify(authorization.replace('Bearer ', ''), JWT_SECRET)
     if (!userId) {
       throw HttpError(401)
     }
