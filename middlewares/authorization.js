@@ -6,11 +6,10 @@ const { JWT_SECRET } = process.env;
 const EXCLUDES = [
   'POST:/users/register',
   'POST:/users/login',
-  'POST:/users/adminLogin',
   'POST:/users/activate',
-  'POST:/users/oauth',  
-  'GET:/categories/list',    
-  'GET:/destinations/list',
+  'POST:/categories/create',
+  'GET:/categories/list',
+  'POST:/toures/create',
 ];
 
 export default function authorization(req, res, next) {
@@ -23,14 +22,14 @@ export default function authorization(req, res, next) {
       next();
       return;
     }
-    if (requestPath.includes('GET:/toures/getTour/')|| requestPath.includes('GET:/destinations/getById/')|| requestPath.includes('GET:/toures/toursByDestination/') || requestPath.includes('GET:/toures/getTouresByCategory/')) {
+    if (requestPath.includes('PATCH:/categories/update/') || requestPath.includes('DELETE:/categories/delete/') ||  requestPath.includes('GET:/toures/getTour/')) {
       next();
       return;
     }
 
     const { authorization } = req.headers;
 
-    const { userId } = jwt.verify(authorization.replace('Bearer ', ''), JWT_SECRET)
+    const { userId } = jwt.verify(authorization, JWT_SECRET)
     if (!userId) {
       throw HttpError(401)
     }
