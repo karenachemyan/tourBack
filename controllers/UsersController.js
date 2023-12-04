@@ -192,7 +192,7 @@ class UsersController {
             next(e)
         }
     }
-    
+
     static async sendPasswordRecoveryCode(req, res, next) {
         try {
 
@@ -264,8 +264,7 @@ class UsersController {
 
             res.json({
                 status: "ok",
-                user,
-                recoveryCode,
+                message: "Recovery code verified successfully",
             })
         } catch (e) {
             next(e)
@@ -293,7 +292,7 @@ class UsersController {
 
             res.json({
                 status: "ok",
-                user
+                message: "Password updated successfully",
             })
         } catch (e) {
             next(e)
