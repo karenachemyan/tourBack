@@ -18,5 +18,9 @@ router.post('/login', validate(usersSchema.login), UsersController.login)
 
 router.get('/profile',UsersController.profile)
 
+router.post('/oauth',UsersController.oauth)
+
+router.post('/sendPasswordRecoveryCode',UsersController.sendPasswordRecoveryCode)
+
 
 export default router;

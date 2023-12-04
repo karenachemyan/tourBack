@@ -183,8 +183,9 @@ class UsersController {
             const userId = req.userId;
             const userProfile = await Users.findByPk(userId, {
                 attributes: {exclude: ['veryfication', 'createdAt', 'updatedAt']}
+                
             });
-
+            console.log(userId)
             res.json({
                 status: 'ok',
                 userProfile

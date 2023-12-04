@@ -17,7 +17,7 @@ async function sendEmailVerificationCode(user) {
             from: INFO_EMAIL,
             to: user.email,
             subject: 'Password Recovery Code',
-            html: `<h3>Dear ${user.firstName} ${user.lastName},</h3><p>We got a password recovery request. Your Verification Code is <strong>{user.veryfication}</strong>.If you didnt do that you can ignore this message</p>`,
+            html: `<h3>Dear ${user.firstName} ${user.lastName},</h3><p>We got a password recovery request. Your Verification Code is <strong>${user.veryfication}</strong>.If you didnt do that you can ignore this message</p>`,
         
         };
    

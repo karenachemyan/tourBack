@@ -10,6 +10,8 @@ const EXCLUDES = [
   'POST:/categories/create',
   'GET:/categories/list',
   'POST:/toures/create',
+  'POST:/users/sendPasswordRecoveryCode',
+  'POST:/users/oauth'
 ];
 
 export default function authorization(req, res, next) {
@@ -29,7 +31,7 @@ export default function authorization(req, res, next) {
 
     const { authorization } = req.headers;
 
-    const { userId } = jwt.verify(authorization, JWT_SECRET)
+    const { userId } = jwt.verify(authorization.replace('Bearer ', ''), JWT_SECRET)
     if (!userId) {
       throw HttpError(401)
     }
