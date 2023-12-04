@@ -218,7 +218,7 @@ class UsersController {
                     }
                 })
             }
-            // XXX-XXX veryfication code
+            
             const recoveryCode = Math.floor(100000 + Math.random() * 900000)
 
             await UserSettings.create({ recoveryCode, userId: user.id });
