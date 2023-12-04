@@ -5,7 +5,7 @@ import HttpError from "http-errors";
 import authorization from "./middlewares/authorization.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import cors from "./middlewares/cors.js";
-import Users from "./models/Users.js";
+import scheduler from './helper/scheduler.js';
 
 const app = express();
 
@@ -23,6 +23,9 @@ app.use((req, res, next) => {
 })
 
 app.use(errorHandler)
+
+scheduler.startScheduledTasks();
+
 
 app.listen(4000,  () => {
   console.log('server started ...')

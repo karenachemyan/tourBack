@@ -4,6 +4,7 @@ import JWT from "jsonwebtoken";
 import { UserSettings, Users } from "../models";
 import { OAuth2Client } from "google-auth-library";
 
+
 const { JWT_SECRET, FRONT_URL } = process.env;
 
 
@@ -183,7 +184,7 @@ class UsersController {
                 attributes: { exclude: ['veryfication', 'createdAt', 'updatedAt'] }
 
             });
-            console.log(userId)
+            
             res.json({
                 status: 'ok',
                 userProfile
@@ -298,8 +299,6 @@ class UsersController {
             next(e)
         }
     }
-
-
 }
 
 export default UsersController
