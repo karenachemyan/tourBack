@@ -211,6 +211,13 @@ class UsersController {
                     }
                 })
             }
+            else if(user.status === 'pending'){
+                throw HttpError(404, {
+                    errors: {
+                        notActive: 'Not Active User'
+                    }
+                })
+            }
             // XXX-XXX veryfication code
             const recoveryCode = Math.floor(100000 + Math.random() * 900000)
 
