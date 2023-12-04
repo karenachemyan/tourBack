@@ -39,7 +39,7 @@ class UsersController {
 
             res.json({
                 status: "ok",
-                newUser
+                message:"Successfully registered"
             })
         } catch (e) {
             next(e)
