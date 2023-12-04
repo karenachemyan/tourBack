@@ -16,5 +16,10 @@ export default {
     }),
     password: Joi.object({
         password: Joi.string().min(8).required(),
+    }),
+    passwordUpdate: Joi.object({
+        email: Joi.string().trim().email().required(),
+        newPassword:Joi.string().min(8).required(),
     })
+
 }

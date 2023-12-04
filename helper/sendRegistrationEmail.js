@@ -1,8 +1,8 @@
 import nodemailer from "nodemailer";
 
-const { INFO_EMAIL,APP_PASS, FRONT_URL } = process.env;
+const { INFO_EMAIL,APP_PASS } = process.env;
 
-async function sendRegistrationEmail(user) {
+async function sendRegistrationEmail(to,html) {
     try {
         let transporter = nodemailer.createTransport({
             service: 'Gmail',
@@ -15,9 +15,9 @@ async function sendRegistrationEmail(user) {
         // Email content
         let mailOptions = {
             from: INFO_EMAIL,
-            to: user.email,
+            to: to,
             subject: 'Welcome to Our Application',
-            html: `<h3>Dear ${user.firstName} ${user.lastName},</h3><p>You have been successfully registered. To activate your account please click on the link below:</p><p><a href="${FRONT_URL}/activate?code=${user.veryfication}"> Click Here </a></p>`,
+            html: html
         
         };
    

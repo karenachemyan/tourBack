@@ -22,5 +22,9 @@ router.post('/oauth',UsersController.oauth)
 
 router.post('/sendPasswordRecoveryCode',UsersController.sendPasswordRecoveryCode)
 
+router.post('/validatePasswordRecoveryCode', UsersController.validatePasswordRecoveryCode)
+
+router.post('/passwordUpdate', validate(usersSchema.passwordUpdate), UsersController.passwordUpdate)
+
 
 export default router;

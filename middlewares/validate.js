@@ -13,7 +13,8 @@ export default function validate(schema, path = 'body') {
     } catch (e) {       
       const errors = {};
       e.details.forEach(d => {
-        _.set(errors, d.path, d.message)
+        const textRemove = d.message.replace("",'')
+        _.set(errors, d.path, textRemove)
       });
       next(HttpError(422, { errors }));
     }
