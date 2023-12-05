@@ -21,6 +21,6 @@ router.delete('/delete/:id', DestinationsController.delete);
 
 router.get('/list', DestinationsController.list)
 
-router.get('/getById/:id', DestinationsController.getById)
+router.get('/get-by-id/:id', DestinationsController.getById)
 
 export default router

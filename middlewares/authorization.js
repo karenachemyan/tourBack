@@ -7,13 +7,12 @@ const EXCLUDES = [
   'POST:/users/register',
   'POST:/users/login',
   'POST:/users/activate',
-  'POST:/categories/create',
   'GET:/categories/list',
-  'POST:/toures/create',
   'POST:/users/send-password-recovery-code',
   'POST:/users/validate-password-recovery-code',
   'POST:/users/oauth',
-  'POST:/users/password-update'
+  'POST:/users/password-update',
+  'GET:/destinations/list'
 ];
 
 export default function authorization(req, res, next) {
@@ -26,7 +25,7 @@ export default function authorization(req, res, next) {
       next();
       return;
     }
-    if (requestPath.includes('PATCH:/categories/update/') || requestPath.includes('DELETE:/categories/delete/') ||  requestPath.includes('GET:/toures/getTour/')) {
+    if (requestPath.includes('GET:/toures/get-tour/') || requestPath.includes('GET:/toures/tours-by-destination/') || requestPath.includes('GET:/toures/toures-by-category/') || requestPath.includes('GET:/destinations/get-by-id/')) {
       next();
       return;
     }

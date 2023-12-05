@@ -16,9 +16,9 @@ router.post(
     TouresController.create
 );
 
-router.get('/getTour/:id',TouresController.getTour)
+router.get('/get-tour/:id',TouresController.getTour)
 router.delete('/delete/:id',TouresController.remove)
-router.get('/toursByDestination/:destId',TouresController.getTouresByDestination)
-router.get('/getTouresByCategory/:catId',TouresController.getTouresByCategory)
+router.get('/tours-by-destination/:destId',TouresController.getTouresByDestination)
+router.get('/toures-by-category/:catId',TouresController.getTouresByCategory)
 
 export default router;
