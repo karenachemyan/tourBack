@@ -20,6 +20,12 @@ export default {
     passwordUpdate: Joi.object({
         email: Joi.string().trim().email().required(),
         newPassword:Joi.string().min(8).required(),
+    }),
+    profileUpdate:Joi.object({
+        firstName: Joi.string().max(255).required(),
+        lastName: Joi.string().max(255).required(),
+        email: Joi.string().required().email(),
+        photo: Joi.string().allow(null, '').default(null)
     })
 
 }

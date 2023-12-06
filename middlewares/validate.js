@@ -9,6 +9,7 @@ export default function validate(schema, path = 'body') {
         dateFormat: 'iso',
       });
       req[path] = data; 
+      
       next();
     } catch (e) {       
       const errors = {};

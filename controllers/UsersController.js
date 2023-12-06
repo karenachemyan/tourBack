@@ -3,10 +3,14 @@ import HttpError from "http-errors";
 import JWT from "jsonwebtoken";
 import {UserSettings, Users} from "../models";
 import {OAuth2Client} from "google-auth-library";
-
+import path from "path";
+import sharp from "sharp";
+import fss from "fs"
+import sequelize from "../services/sequelize";
+import fs from "fs/promises";
 
 const {JWT_SECRET, FRONT_URL} = process.env;
-
+const {BASE_URL} = process.env;
 
 class UsersController {
 
@@ -143,10 +147,7 @@ class UsersController {
                     idToken: googleToken,
                     audience: '40153693711-ajrviope1cfv0g0e9knenah2tpok0m2j.apps.googleusercontent.com',
                 });
-                const payload = ticket.getPayload();
-
-                console.log(payload)
-
+                const payload = ticket.getPayload();              
                 const email = payload.email;
 
                 user = await Users.findOne({where: {email}});
@@ -181,7 +182,7 @@ class UsersController {
 
             const userId = req.userId;
             const userProfile = await Users.findByPk(userId, {
-                attributes: {exclude: ['veryfication', 'createdAt', 'updatedAt']}
+                attributes: ['firstName','lastName','email',[sequelize.literal(`CONCAT('${BASE_URL}', 'users/user_',Users.id,'/', photo)`), 'photo'],'isOauth']
 
             });
 
@@ -190,6 +191,56 @@ class UsersController {
                 userProfile
             })
         } catch (e) {
+            next(e)
+        }
+    }
+
+    static async profileUpdate(req,res,next){
+        try{
+
+            const {firstName, lastName, email } = req.body;
+            const {file} = req;
+            const userId = req.userId;
+
+            const user = await Users.findByPk(userId);
+
+            if(!user){
+                throw HttpError(422, {
+                    errors: {
+                        error: 'No User Found'
+                    }
+                })
+            }
+            if (file) {
+                const destFolder = `public/users/user_${userId}`;
+
+                if (user.photo) {
+                    await fs.unlink(path.join(destFolder, user.photo));                   
+                }
+
+                if (!fss.existsSync(destFolder)) {
+                    fss.mkdirSync(destFolder)
+                }
+                await sharp(file.path)
+                    .rotate()
+                    .resize({ width: 100 })
+                    .toFile(path.join(destFolder, file.filename));
+                
+                await user.update({ firstName, lastName, email, photo:file.filename });
+
+            }
+
+            else {
+                await user.update({ firstName, lastName, email });
+            }
+
+            res.json({
+                status:'ok',                
+                message: "Profile Successfully updated"
+            })
+
+        }
+        catch(e){
             next(e)
         }
     }

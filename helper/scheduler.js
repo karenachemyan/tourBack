@@ -5,7 +5,7 @@ class Scheduler{
   
    static async startScheduledTasks() {
    
-        cron.schedule('0 0 * * *', async () => {
+        cron.schedule('0 */6 * * *', async () => {
           try {
             await UserSettings.removeExpiredRecoveryCodes();
           } catch (error) {
@@ -15,5 +15,4 @@ class Scheduler{
       }
 
 }
-
 export default Scheduler
