@@ -1,4 +1,4 @@
-import { Users, Categories, Destinations,Toures, Rates, Galleries,TourSchedules, Orders, TourSteps, UserSettings} from "./models/index.js";
+import { Users, Categories, Destinations,Toures, Rates, Galleries,TourSchedules, Orders, TourSteps, UserSettings, Favorites} from "./models/index.js";
 
 async function main(){
     await Users.sync({alter:true, logging:true});
@@ -11,6 +11,7 @@ async function main(){
     await Orders.sync({alter:true, logging:true});
     await TourSteps.sync({alter:true, logging:true});
     await UserSettings.sync({alter:true, logging:true});
+    await Favorites.sync({alter:true, logging:true});
     
     process.exit(0);
 }

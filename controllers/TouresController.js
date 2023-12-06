@@ -1,4 +1,4 @@
-import { Categories, Destinations, Galleries, Rates, TourSchedules, TourSteps, Toures } from "../models";
+import { Categories, Destinations, Favorites, Galleries, Rates, TourSchedules, TourSteps, Toures } from "../models";
 import path from "path";
 import sharp from "sharp";
 import sequelize from "../services/sequelize";
@@ -179,7 +179,7 @@ class TouresController {
             required: false,
             attributes: ['title','description']
           },
-          
+                    
         ],
         attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/', featuredImage)`), 'featuredImage'],[
           sequelize.literal(`(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = ${id})`), 
@@ -325,6 +325,15 @@ class TouresController {
       next(e)
     }
 
+  }
+
+  static async addFavorite(req,res,next){
+    try{
+
+    }
+    catch(e){
+      next(e)
+    }
   }
 
 }

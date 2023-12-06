@@ -42,5 +42,5 @@ Rates.belongsTo(Users,
 
 Toures.hasMany(Rates, { foreignKey: "tourId" });
 Users.hasMany(Rates, { foreignKey: "userId" });
-//Rates.sync({alter:true,logging:true})
+
 export default Rates;

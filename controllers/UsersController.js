@@ -1,26 +1,26 @@
 import sendRegistrationEmail from "../helper/sendRegistrationEmail.js";
 import HttpError from "http-errors";
 import JWT from "jsonwebtoken";
-import {UserSettings, Users} from "../models";
-import {OAuth2Client} from "google-auth-library";
+import { Favorites, UserSettings, Users } from "../models";
+import { OAuth2Client } from "google-auth-library";
 import path from "path";
 import sharp from "sharp";
 import fss from "fs"
 import sequelize from "../services/sequelize";
 import fs from "fs/promises";
 
-const {JWT_SECRET, FRONT_URL} = process.env;
-const {BASE_URL} = process.env;
+const { JWT_SECRET, FRONT_URL } = process.env;
+const { BASE_URL } = process.env;
 
 class UsersController {
 
     static async register(req, res, next) {
         try {
 
-            const {firstName, lastName, email, password} = req.body;
+            const { firstName, lastName, email, password } = req.body;
 
             const userExists = await Users.findOne({
-                where: {email},
+                where: { email },
             });
 
             if (userExists) {
@@ -31,7 +31,7 @@ class UsersController {
                 })
             }
 
-            const veryfication = JWT.sign({email: email}, JWT_SECRET);
+            const veryfication = JWT.sign({ email: email }, JWT_SECRET);
 
             const newUser = await Users.create({
                 firstName, lastName, email, password, veryfication: veryfication
@@ -43,7 +43,7 @@ class UsersController {
 
             res.json({
                 status: "ok",
-                message:"Successfully registered"
+                message: "Successfully registered"
             })
         } catch (e) {
             next(e)
@@ -52,7 +52,7 @@ class UsersController {
 
     static async activate(req, res, next) {
         try {
-            const {code} = req.body;
+            const { code } = req.body;
             let email;
 
             try {
@@ -67,7 +67,7 @@ class UsersController {
             }
 
             const userExists = await Users.findOne({
-                where: {veryfication: code}
+                where: { veryfication: code }
             });
 
             if (!userExists || userExists.email !== email) {
@@ -79,9 +79,9 @@ class UsersController {
             }
 
             await Users.update(
-                {status: 'active'},
+                { status: 'active' },
                 {
-                    where: {email},
+                    where: { email },
                 })
 
             res.json({
@@ -96,7 +96,7 @@ class UsersController {
 
     static async login(req, res, next) {
         try {
-            const {email, password} = req.body;
+            const { email, password } = req.body;
 
             const user = await Users.findOne({
                 where: {
@@ -123,7 +123,7 @@ class UsersController {
                 });
             }
 
-            const token = JWT.sign({userId: user.id}, JWT_SECRET);
+            const token = JWT.sign({ userId: user.id }, JWT_SECRET);
 
             res.json({
                 status: 'ok',
@@ -137,7 +137,7 @@ class UsersController {
 
     static async oauth(req, res, next) {
         try {
-            const {googleToken} = req.body;
+            const { googleToken } = req.body;
             let token, user
 
             if (googleToken) {
@@ -147,10 +147,10 @@ class UsersController {
                     idToken: googleToken,
                     audience: '40153693711-ajrviope1cfv0g0e9knenah2tpok0m2j.apps.googleusercontent.com',
                 });
-                const payload = ticket.getPayload();              
+                const payload = ticket.getPayload();
                 const email = payload.email;
 
-                user = await Users.findOne({where: {email}});
+                user = await Users.findOne({ where: { email } });
 
                 if (!user) {
 
@@ -162,9 +162,9 @@ class UsersController {
                         status: 'active',
                         isOauth: true
                     })
-                    token = JWT.sign({userId: user.id}, JWT_SECRET);
+                    token = JWT.sign({ userId: user.id }, JWT_SECRET);
                 } else {
-                    token = JWT.sign({userId: user.id}, JWT_SECRET);
+                    token = JWT.sign({ userId: user.id }, JWT_SECRET);
                 }
                 res.json({
                     status: 'ok',
@@ -182,29 +182,45 @@ class UsersController {
 
             const userId = req.userId;
             const userProfile = await Users.findByPk(userId, {
-                attributes: ['firstName','lastName','email',[sequelize.literal(`CONCAT('${BASE_URL}', 'users/user_',Users.id,'/', photo)`), 'photo'],'isOauth']
+                attributes: ['firstName', 'lastName', 'email', [sequelize.literal(`CONCAT('${BASE_URL}', 'users/user_',Users.id,'/', photo)`), 'photo'], 'isOauth'],
 
+                include: [
+                    {
+                        model: Favorites,
+                        attributes: ['tourId'],
+                        as: 'favorites'
+                    }
+                ]
             });
+
+            const favorites = userProfile.favorites.map(f=>(
+                f.tourId
+            ))
+
+            const profile = {
+                ...userProfile.toJSON(),
+                favorites:favorites
+            }
 
             res.json({
                 status: 'ok',
-                userProfile
+                profile
             })
         } catch (e) {
             next(e)
         }
     }
 
-    static async profileUpdate(req,res,next){
-        try{
+    static async profileUpdate(req, res, next) {
+        try {
 
-            const {firstName, lastName, email } = req.body;
-            const {file} = req;
+            const { firstName, lastName, email } = req.body;
+            const { file } = req;
             const userId = req.userId;
 
             const user = await Users.findByPk(userId);
 
-            if(!user){
+            if (!user) {
                 throw HttpError(422, {
                     errors: {
                         error: 'No User Found'
@@ -215,7 +231,7 @@ class UsersController {
                 const destFolder = `public/users/user_${userId}`;
 
                 if (user.photo) {
-                    await fs.unlink(path.join(destFolder, user.photo));                   
+                    await fs.unlink(path.join(destFolder, user.photo));
                 }
 
                 if (!fss.existsSync(destFolder)) {
@@ -225,8 +241,8 @@ class UsersController {
                     .rotate()
                     .resize({ width: 100 })
                     .toFile(path.join(destFolder, file.filename));
-                
-                await user.update({ firstName, lastName, email, photo:file.filename });
+
+                await user.update({ firstName, lastName, email, photo: file.filename });
 
             }
 
@@ -235,12 +251,12 @@ class UsersController {
             }
 
             res.json({
-                status:'ok',                
+                status: 'ok',
                 message: "Profile Successfully updated"
             })
 
         }
-        catch(e){
+        catch (e) {
             next(e)
         }
     }
@@ -248,11 +264,11 @@ class UsersController {
     static async sendPasswordRecoveryCode(req, res, next) {
         try {
 
-            const {email} = req.body;
+            const { email } = req.body;
 
             const user = await Users.findOne({
-                where: {email},
-                attributes: {exclude: ['veryfication', 'createdAt', 'updatedAt']}
+                where: { email },
+                attributes: { exclude: ['veryfication', 'createdAt', 'updatedAt'] }
             });
 
             if (!user) {
@@ -268,10 +284,10 @@ class UsersController {
                     }
                 })
             }
-            
+
             const recoveryCode = Math.floor(100000 + Math.random() * 900000)
 
-            await UserSettings.create({recoveryCode, userId: user.id});
+            await UserSettings.create({ recoveryCode, userId: user.id });
 
             const html = `<h3>Dear ${user.firstName} ${user.lastName},</h3><p>We got a password recovery request. Your Verification Code is <strong>${recoveryCode}</strong>.If you didnt do that you can ignore this message</p>`;
 
@@ -289,10 +305,10 @@ class UsersController {
     static async validatePasswordRecoveryCode(req, res, next) {
         try {
 
-            const {email, recoveryCode} = req.body;
+            const { email, recoveryCode } = req.body;
 
             const user = await Users.findOne({
-                where: {email},
+                where: { email },
                 attributes: {
                     exclude: ['veryfication', 'createdAt', 'updatedAt'],
                 },
@@ -332,11 +348,11 @@ class UsersController {
     static async passwordUpdate(req, res, next) {
         try {
 
-            const {email, newPassword} = req.body;
+            const { email, newPassword } = req.body;
 
             const user = await Users.findOne({
-                where: {email},
-                attributes: {exclude: ['veryfication', 'createdAt', 'updatedAt']}
+                where: { email },
+                attributes: { exclude: ['veryfication', 'createdAt', 'updatedAt'] }
             });
 
             if (!user) {
@@ -346,7 +362,7 @@ class UsersController {
                     }
                 })
             }
-            await user.update({password: newPassword});
+            await user.update({ password: newPassword });
 
             res.json({
                 status: "ok",
