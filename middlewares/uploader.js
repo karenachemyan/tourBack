@@ -34,4 +34,4 @@ export default function uploader(fileTypes=[]) {
   })
 }
 
-uploader.image = uploader(['image/png', 'image/jpeg']);
+uploader.image = uploader(['image/png', 'image/jpeg','image/svg+xml']);
