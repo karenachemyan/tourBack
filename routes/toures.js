@@ -20,5 +20,6 @@ router.get('/get-tour/:id',TouresController.getTour)
 router.delete('/delete/:id',TouresController.remove)
 router.get('/tours-by-destination/:destId',TouresController.getTouresByDestination)
 router.get('/toures-by-category/:catId',TouresController.getTouresByCategory)
+router.get('/list',TouresController.list)
 
 export default router;

@@ -18,13 +18,18 @@ Orders.init({
         type: DataTypes.FLOAT(10, 2),
         allowNull: false,
     },
-    participants:{
+    participants: {
         type: DataTypes.INTEGER(3),
-        defaultValue:0
+        defaultValue: 0
     },
-    gid:{
-        type:DataTypes.BOOLEAN,
-        defaultValue:false
+    gid: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+    status: {
+        type:DataTypes.ENUM('pending','active'),
+        defaultValue:'pending',
+        allowNull:false,
     }
 
 },

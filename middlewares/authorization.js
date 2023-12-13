@@ -12,7 +12,8 @@ const EXCLUDES = [
   'POST:/users/validate-password-recovery-code',
   'POST:/users/oauth',
   'POST:/users/password-update',
-  'GET:/destinations/list'
+  'GET:/destinations/list',
+  'GET:/toures/list'
 ];
 
 export default function authorization(req, res, next) {
