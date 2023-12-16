@@ -16,10 +16,19 @@ router.post(
     TouresController.create
 );
 
+router.put('/update/:tourId' , uploader([]).fields([
+    {name: "featuredImage", maxCount: 1},
+    {name: "src"}
+]),
+validate(touresSchema.update),TouresController.update)
+
 router.get('/get-tour/:id',TouresController.getTour)
 router.delete('/delete/:id',TouresController.remove)
 router.get('/tours-by-destination/:destId',TouresController.getTouresByDestination)
 router.get('/toures-by-category/:catId',TouresController.getTouresByCategory)
 router.get('/list',TouresController.list)
+router.delete('/remove-gallery-image', TouresController.removeGalleryImage)
+router.delete('/remove-schedule', TouresController.removeTourSchedule)
+router.patch('/schedule-update',TouresController.scheduleUpdate)
 
 export default router;

@@ -108,6 +108,130 @@ class TouresController {
     }
   }
 
+  static async update(req, res, next) {
+    try {
+
+      const { title, description, price, duration, categoryId, destinationId, schedule = [] } = req.body;
+      const { featuredImage, src } = req.files;
+      const { tourId } = req.params;
+
+      const tour = await Toures.findByPk(tourId);
+
+      if (!tour) {
+        throw HttpError(422, {
+          errors: {
+            error: 'No tour found'
+          }
+        })
+      }
+
+      const root = path.resolve('public/toures');
+
+      let featured = tour.featuredImage;
+
+      
+
+      if (featuredImage) {
+        const ext = path.extname(featured);
+
+        await fs.unlink(path.join(root, featured));
+        await fs.unlink(path.join(root, featured + '@2x' + ext));
+        await fs.unlink(path.join(root, featured + '@3x' + ext));
+
+        await sharp(featuredImage[0].path)
+          .rotate()
+          .resize({ width: 400 })
+          .toFile(path.join(root, featuredImage[0].filename));
+
+        await resizeImages(featuredImage[0].path, root, featuredImage[0].filename, 2);
+        await resizeImages(featuredImage[0].path, root, featuredImage[0].filename, 3);
+
+        featured = featuredImage[0].filename;
+      }
+
+      tour.update({
+        title,
+        description,
+        price,
+        duration,
+        featuredImage:featured,
+        categoryId,
+        destinationId
+      });
+
+      const tourFolder = `public/toures/gallery/tour_${tour.id}`;
+      const galleryPath = path.resolve(tourFolder);
+
+      if (!fss.existsSync(tourFolder)) {
+        fss.mkdirSync(tourFolder)
+      }
+      
+      if(src){
+        await Galleries.bulkCreate(src.map(s => ({
+          tourId: tour.id,
+          src: s.filename
+        })));
+
+        src.map(async (s) => {
+          await sharp(s.path)
+            .rotate()
+            .resize({ width: 400 })
+            .toFile(path.join(galleryPath, s.filename));
+  
+          await resizeImages(s.path, galleryPath, s.filename, 2);
+          await resizeImages(s.path, galleryPath, s.filename, 3);
+        });
+      }
+
+      if (schedule.length) {
+        await TourSchedules.bulkCreate(schedule.map(d => ({
+          tourId: tour.id,
+          date: new Date(d)
+        })));
+      }
+
+      const UpdatedTour = await Toures.findOne({
+        where: { id: tour.id },
+        include: [
+          {
+            model: Categories,
+            required: true,
+            attributes: ['title']
+          },
+          {
+            model: Destinations,
+            required: true,
+            attributes: ['title']
+          },
+          {
+            model: Galleries,
+            required: true,
+            attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/tour_${tour.id}/', src)`), 'src']]
+          },
+          {
+            model: TourSchedules,
+            required: true,
+            attributes: ['date']
+          },
+
+        ],
+        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/', featuredImage)`), 'featuredImage'], 'categoryId', 'destinationId']
+      })
+
+
+      res.json({
+        status: 'ok',
+        UpdatedTour
+      })
+
+    }
+    catch (e) {
+      next(e)
+    }
+
+
+  }
+
   static async remove(req, res, next) {
     try {
 
@@ -166,7 +290,7 @@ class TouresController {
 
           {
             model: Galleries,
-            required: true,
+            required: false,
             attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/tour_${id}/', src)`), 'src']]
           },
           {
@@ -227,7 +351,7 @@ class TouresController {
 
           {
             model: Galleries,
-            required: true,
+            required: false,
             attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/tour_', Toures.id, '/', src)`), 'src']]
           },
           {
@@ -287,7 +411,7 @@ class TouresController {
 
           {
             model: Galleries,
-            required: true,
+            required: false,
             attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/tour_', Toures.id, '/', src)`), 'src']]
           },
           {
@@ -347,7 +471,7 @@ class TouresController {
 
           {
             model: Galleries,
-            required: true,
+            required: false,
             attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/tour_', Toures.id, '/', src)`), 'src']]
           },
           {
@@ -368,13 +492,10 @@ class TouresController {
         limit,
         offset,
       })
-
-      console.log(tours)
-
       res.json({
         status: 'ok',
         tours,
-        total:tours.length,
+        total: tours.length,
         pages: Math.ceil(tours.length / limit)
       })
     }
@@ -382,6 +503,104 @@ class TouresController {
       next(e)
     }
   }
+
+  static async removeGalleryImage(req, res, next) {
+    try {
+
+      const { imageId } = req.body;
+
+      const image = await Galleries.findByPk(imageId);
+
+      if (!image) {
+        throw HttpError(422, {
+          errors: {
+            error: 'No Image found'
+          }
+        })
+      }
+      const imagePath = path.resolve(`public/toures/gallery/tour_${image.tourId}`);
+      Galleries.destroy({
+        where: {
+          id: imageId
+        }
+      });
+
+      const ext = path.extname(image.src)
+      await fs.unlink(path.join(imagePath, image.src));
+      await fs.unlink(path.join(imagePath, image.src + '@2x' + ext));
+      await fs.unlink(path.join(imagePath, image.src + '@3x' + ext));
+
+      res.json({
+        status: 'ok',
+        message: 'successfully removed'
+      })
+
+    }
+    catch (e) {
+      next(e)
+    }
+  }
+
+  static async removeTourSchedule(req, res, next) {
+    try {
+
+      const { scheduleId } = req.body;
+
+      const schedule = await TourSchedules.findByPk(scheduleId);
+
+      if (!schedule) {
+        throw HttpError(422, {
+          errors: {
+            error: 'No Schedule found'
+          }
+        })
+      }
+
+      TourSchedules.destroy(
+        { where: { id: scheduleId } }
+      )
+
+      res.json({
+        status: 'ok',
+        message: 'Schedule removed Successfully!'
+      })
+
+    }
+    catch (e) {
+      next(e);
+    }
+  }
+
+  static async scheduleUpdate(req, res, next) {
+    try {
+
+      const { scheduleId, date } = req.body;
+      const schedule = await TourSchedules.findByPk(scheduleId);
+
+      if (!schedule) {
+        throw HttpError(422, {
+          errors: {
+            error: 'No Schedule found'
+          }
+        })
+      }
+
+      await schedule.update({ date: date });
+
+      res.json({
+        status: 'ok',
+        message: 'Successfully Updated',
+        schedule
+      })
+
+    }
+    catch (e) {
+
+      next(e)
+
+    }
+  }
+
 
 }
 
