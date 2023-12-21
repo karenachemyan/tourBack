@@ -33,7 +33,7 @@ class TourStepsController{
 
             res.json({
                 status:'ok',
-                steps
+                steps,
 
             })
 

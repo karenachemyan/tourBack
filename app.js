@@ -1,4 +1,6 @@
 import express from "express";
+import https from "https";
+import fs from "fs";
 import path from "path";
 import indexRouter from "./routes/index.js";
 import HttpError from "http-errors";
@@ -26,7 +28,13 @@ app.use(errorHandler)
 
 scheduler.startScheduledTasks();
 
+const httpsOptions = {
+  key: fs.readFileSync('public/key.pem'),
+  cert: fs.readFileSync('public/cert.pem'),
+};
 
-app.listen(4000,  () => {
-  console.log('server started ...')
+const server = https.createServer(httpsOptions, app);
+
+server.listen(4000, () => {
+  console.log('Server started with HTTPS on port 4000');
 })
