@@ -28,13 +28,13 @@ app.use(errorHandler)
 
 scheduler.startScheduledTasks();
 
-const httpsOptions = {
+/*const httpsOptions = {
   key: fs.readFileSync('public/key.pem'),
   cert: fs.readFileSync('public/cert.pem'),
-};
+};*/
 
-const server = https.createServer(httpsOptions, app);
+//const server = https.createServer(httpsOptions, app);
 
-server.listen(4000, () => {
-  console.log('Server started with HTTPS on port 4000');
+app.listen(4000, () => {
+  console.log('Server started...');
 })

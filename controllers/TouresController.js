@@ -84,7 +84,7 @@ class TouresController {
           {
             model: Galleries,
             required: true,
-            attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/tour_${tour.id}/', src)`), 'src']]
+            attributes: [[sequelize.literal(`CONCAT('toures/gallery/tour_${tour.id}/', src)`), 'src']]
           },
           {
             model: TourSchedules,
@@ -93,7 +93,7 @@ class TouresController {
           },
 
         ],
-        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/', featuredImage)`), 'featuredImage'], 'categoryId', 'destinationId']
+        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage'], 'categoryId', 'destinationId']
       })
 
 
@@ -206,7 +206,7 @@ class TouresController {
           {
             model: Galleries,
             required: true,
-            attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/tour_${tour.id}/', src)`), 'src']]
+            attributes: [[sequelize.literal(`CONCAT('toures/gallery/tour_${tour.id}/', src)`), 'src']]
           },
           {
             model: TourSchedules,
@@ -215,7 +215,7 @@ class TouresController {
           },
 
         ],
-        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/', featuredImage)`), 'featuredImage'], 'categoryId', 'destinationId']
+        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage'], 'categoryId', 'destinationId']
       })
 
 
@@ -291,7 +291,7 @@ class TouresController {
           {
             model: Galleries,
             required: false,
-            attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/tour_${id}/', src)`), 'src']]
+            attributes: [[sequelize.literal(`CONCAT('toures/gallery/tour_${id}/', src)`), 'src']]
           },
           {
             model: TourSchedules,
@@ -305,7 +305,7 @@ class TouresController {
           },
 
         ],
-        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/', featuredImage)`), 'featuredImage'], [
+        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage'], [
           sequelize.literal(`(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = ${id})`),
           'rating']],
 
@@ -352,7 +352,7 @@ class TouresController {
           {
             model: Galleries,
             required: false,
-            attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/tour_', Toures.id, '/', src)`), 'src']]
+            attributes: [[sequelize.literal(`CONCAT('toures/gallery/tour_', Toures.id, '/', src)`), 'src']]
           },
           {
             model: TourSchedules,
@@ -366,7 +366,7 @@ class TouresController {
           },
 
         ],
-        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/', featuredImage)`), 'featuredImage'], [
+        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage'], [
           sequelize.literal(`(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = Toures.id)`),
           'rating']],
       })
@@ -412,7 +412,7 @@ class TouresController {
           {
             model: Galleries,
             required: false,
-            attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/tour_', Toures.id, '/', src)`), 'src']]
+            attributes: [[sequelize.literal(`CONCAT('toures/gallery/tour_', Toures.id, '/', src)`), 'src']]
           },
           {
             model: TourSchedules,
@@ -426,7 +426,7 @@ class TouresController {
           },
 
         ],
-        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/', featuredImage)`), 'featuredImage'], [
+        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage'], [
           sequelize.literal(`(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = Toures.id)`),
           'rating']],
       })
@@ -472,7 +472,7 @@ class TouresController {
           {
             model: Galleries,
             required: false,
-            attributes: [[sequelize.literal(`CONCAT('${BASE_URL}', 'toures/gallery/tour_', Toures.id, '/', src)`), 'src']]
+            attributes: [[sequelize.literal(`CONCAT('toures/gallery/tour_', Toures.id, '/', src)`), 'src']]
           },
           {
             model: TourSchedules,
@@ -486,7 +486,7 @@ class TouresController {
           },
 
         ],
-        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/', featuredImage)`), 'featuredImage'], [
+        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage'], [
           sequelize.literal(`(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = Toures.id)`),
           'rating']],
         limit,

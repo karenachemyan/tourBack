@@ -149,7 +149,7 @@ class DestinationsController {
             const destinations = await Destinations.findAll(
                 {
                     attributes: [ 'id','title',               
-                    [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/destinations/destination_',Destinations.id,'/', image)`), 'image']
+                    [sequelize.literal(`CONCAT('toures/destinations/destination_',Destinations.id,'/', image)`), 'image']
                   ]}
             );
 
@@ -174,7 +174,7 @@ class DestinationsController {
                 {
                     where:{id},
                     attributes: [ 'id','title',               
-                    [sequelize.literal(`CONCAT('${BASE_URL}', 'toures/destinations/destination_',Destinations.id,'/', image)`), 'image']
+                    [sequelize.literal(`CONCAT('toures/destinations/destination_',Destinations.id,'/', image)`), 'image']
                   ]}
             );
 

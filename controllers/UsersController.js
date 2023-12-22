@@ -182,7 +182,7 @@ class UsersController {
 
             const userId = req.userId;
             const userProfile = await Users.findByPk(userId, {
-                attributes: ['firstName', 'lastName', 'email', [sequelize.literal(`CONCAT('${BASE_URL}', 'users/user_',Users.id,'/', photo)`), 'photo'], 'isOauth'],
+                attributes: ['firstName', 'lastName', 'email', [sequelize.literal(`CONCAT('users/user_',Users.id,'/', photo)`), 'photo'], 'isOauth'],
 
                 include: [
                     {

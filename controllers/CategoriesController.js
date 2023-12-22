@@ -148,7 +148,7 @@ class CategoriesController {
             const {BASE_URL} = process.env;
             const categories = await Categories.findAll({
                 attributes: [ 'id','title',               
-                [sequelize.literal(`CONCAT('${BASE_URL}', 'categories/', icon)`), 'icon']
+                [sequelize.literal(`CONCAT('categories/', icon)`), 'icon']
               ]});            
 
             if (!categories) {
