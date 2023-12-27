@@ -233,7 +233,7 @@ class UsersController {
                 const html = `<h3>Dear ${firstName} ${lastName},</h3><p>Youe email was changed. To activate your account please click on the link below:</p><p><a href="${FRONT_URL}/activate?code=${veryfication}"> Click Here </a></p>`;
                 
                 await sendRegistrationEmail(email, html);
-                await user.update({ status:'pending' });
+                await user.update({ status:'pending', veryfication:veryfication });
             }
 
             if (file) {
