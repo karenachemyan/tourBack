@@ -227,6 +227,15 @@ class UsersController {
                     }
                 })
             }
+
+            if(user.email !== email){
+                const veryfication = JWT.sign({ email: email }, JWT_SECRET);
+                const html = `<h3>Dear ${firstName} ${lastName},</h3><p>Youe email was changed. To activate your account please click on the link below:</p><p><a href="${FRONT_URL}/activate?code=${veryfication}"> Click Here </a></p>`;
+                
+                await sendRegistrationEmail(email, html);
+                await user.update({ status:'pending' });
+            }
+
             if (file) {
                 const destFolder = `public/users/user_${userId}`;
 
@@ -249,6 +258,8 @@ class UsersController {
             else {
                 await user.update({ firstName, lastName, email });
             }
+
+           
 
             res.json({
                 status: 'ok',
@@ -373,5 +384,4 @@ class UsersController {
         }
     }
 }
-
 export default UsersController
