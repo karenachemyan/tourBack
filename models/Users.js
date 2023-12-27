@@ -76,7 +76,7 @@ Users.init({
       const email = this.getDataValue('email');
 
       if (email) {
-        return `https://www.gravatar.com/avatar/${md5(email)}?d=robohash`
+        return `avatar.png`
       }
     }
   },
