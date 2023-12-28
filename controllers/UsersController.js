@@ -193,13 +193,13 @@ class UsersController {
                 ]
             });
 
-            const favorites = userProfile.favorites.map(f=>(
+            const favorites = userProfile.favorites.map(f => (
                 f.tourId
             ))
 
             const profile = {
                 ...userProfile.toJSON(),
-                favorites:favorites
+                favorites: favorites
             }
 
             res.json({
@@ -228,12 +228,12 @@ class UsersController {
                 })
             }
 
-            if(user.email !== email){
+            if (user.email !== email) {
                 const veryfication = JWT.sign({ email: email }, JWT_SECRET);
                 const html = `<h3>Dear ${firstName} ${lastName},</h3><p>Youe email was changed. To activate your account please click on the link below:</p><p><a href="${FRONT_URL}/activate?code=${veryfication}"> Click Here </a></p>`;
-                
+
                 await sendRegistrationEmail(email, html);
-                await user.update({ status:'pending', veryfication:veryfication });
+                await user.update({ status: 'pending', veryfication: veryfication });
             }
 
             if (file) {
@@ -259,7 +259,7 @@ class UsersController {
                 await user.update({ firstName, lastName, email });
             }
 
-           
+
 
             res.json({
                 status: 'ok',
@@ -289,7 +289,7 @@ class UsersController {
                     }
                 })
             } else if (user.status === 'pending') {
-                throw HttpError(404, {
+                throw HttpError(403, {
                     errors: {
                         notActive: 'Not Active User'
                     }
@@ -382,6 +382,43 @@ class UsersController {
         } catch (e) {
             next(e)
         }
+    }
+
+    static async changeOldPassword(req, res, next) {
+
+        try {
+
+            const {password, newPassword} = req.body;
+
+            const userId = req.userId;
+
+            const user = await Users.findOne({
+               where:{
+                    id:userId,
+                    password:Users.passwordHash(password)
+                }
+            })
+
+            if(!user){
+                throw HttpError(401, {
+                    errors: {
+                        oldPassword: 'Old Password are Wrong'
+                    }
+                })
+            }
+
+            await user.update({ password: newPassword }, { where: { id: userId } })
+
+            res.json({
+                status:'ok',
+                message:'Password Updated  Successfully'                
+            })
+
+        }
+        catch (e) {
+            next(e)
+        }
+
     }
 }
 export default UsersController

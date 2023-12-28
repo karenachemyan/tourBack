@@ -29,5 +29,6 @@ router.post('/password-update', validate(usersSchema.passwordUpdate), UsersContr
 
 router.put('/profile-update', uploader.image.single('photo'), validate(usersSchema.profileUpdate), UsersController.profileUpdate);
 
+router.put('/update-password', validate(usersSchema.updatePassword), UsersController.changeOldPassword)
 
 export default router;
