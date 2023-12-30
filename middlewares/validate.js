@@ -8,13 +8,13 @@ export default function validate(schema, path = 'body') {
         abortEarly: false,
         dateFormat: 'iso',
       });
-      req[path] = data; 
-      
+      req[path] = data;
+
       next();
-    } catch (e) {       
+    } catch (e) {
       const errors = {};
       e.details.forEach(d => {
-        const textRemove = d.message.replace("",'')
+        const textRemove = d.message.replace(`"${d.path}"`,'')
         _.set(errors, d.path, textRemove)
       });
       next(HttpError(422, { errors }));

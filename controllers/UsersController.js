@@ -400,7 +400,7 @@ class UsersController {
             })
 
             if(!user){
-                throw HttpError(401, {
+                throw HttpError(404, {
                     errors: {
                         oldPassword: 'Old Password are Wrong'
                     }
@@ -411,7 +411,7 @@ class UsersController {
 
             res.json({
                 status:'ok',
-                message:'Password Updated  Successfully'                
+                message:'Password Updated  Successfully'
             })
 
         }
