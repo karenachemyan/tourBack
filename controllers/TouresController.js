@@ -334,7 +334,9 @@ class TouresController {
     try {
 
       const { destId } = req.params;
-
+      const { page = 1 } = req.query;
+      const limit = 10;
+      const offset = (page - 1) * limit;
       const tours = await Toures.findAll({
         where: { destinationId: destId },
         include: [
@@ -369,7 +371,11 @@ class TouresController {
         attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage'], [
           sequelize.literal(`(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = Toures.id)`),
           'rating']],
+          limit,
+          offset
       })
+
+      const totalCount = await Toures.count({ where: { destinationId: destId } });
 
       if (tours.length === 0) {
         throw HttpError(422, {
@@ -381,7 +387,9 @@ class TouresController {
 
       res.json({
         status: 'ok',
-        tours
+        tours,
+        total: totalCount,
+        pages: Math.ceil(totalCount / limit)
       })
 
     }
@@ -394,7 +402,9 @@ class TouresController {
     try {
 
       const { catId } = req.params;
-
+      const { page = 1 } = req.query;
+      const limit = 10;
+      const offset = (page - 1) * limit;
       const tours = await Toures.findAll({
         where: { categoryId: catId },
         include: [
@@ -429,7 +439,11 @@ class TouresController {
         attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage'], [
           sequelize.literal(`(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = Toures.id)`),
           'rating']],
+          limit,
+          offset
       })
+
+      const totalCount = await Toures.count({ where: { categoryId: catId } });
 
       if (tours.length === 0) {
         throw HttpError(422, {
@@ -441,7 +455,9 @@ class TouresController {
 
       res.json({
         status: 'ok',
-        tours
+        tours,
+        total: totalCount,
+        pages: Math.ceil(totalCount / limit)
       })
 
     }
@@ -454,7 +470,7 @@ class TouresController {
   static async list(req, res, next) {
     try {
       const { page = 1 } = req.query;
-      const limit = 20;
+      const limit = 10;
       const offset = (page - 1) * limit;
       const tours = await Toures.findAll({
         include: [
@@ -492,11 +508,14 @@ class TouresController {
         limit,
         offset,
       })
+
+      const totalCount = await Toures.count();
+
       res.json({
         status: 'ok',
         tours,
-        total: tours.length,
-        pages: Math.ceil(tours.length / limit)
+        total: totalCount,
+        pages: Math.ceil(totalCount / limit)
       })
     }
     catch (e) {
