@@ -8,7 +8,9 @@ import sharp from "sharp";
 import fss from "fs"
 import sequelize from "../services/sequelize";
 import fs from "fs/promises";
-
+import Joi from 'joi'
+import usersSchema from "../schema/usersSchema.js";
+import _ from "lodash";
 const { JWT_SECRET, FRONT_URL } = process.env;
 const { BASE_URL } = process.env;
 
@@ -141,17 +143,15 @@ class UsersController {
             let token, user
 
             if (googleToken) {
-
+                console.log('hello')
                 const client = new OAuth2Client('40153693711-ajrviope1cfv0g0e9knenah2tpok0m2j.apps.googleusercontent.com');
                 const ticket = await client.verifyIdToken({
                     idToken: googleToken,
-                    audience: '40153693711-ajrviope1cfv0g0e9knenah2tpok0m2j.apps.googleusercontent.com',
                 });
                 const payload = ticket.getPayload();
                 const email = payload.email;
-
+                console.log(payload)
                 user = await Users.findOne({ where: { email } });
-
                 if (!user) {
 
                     user = await Users.create({
@@ -173,6 +173,7 @@ class UsersController {
                 });
             }
         } catch (e) {
+            console.log(e)
             next(e)
         }
     }
@@ -182,7 +183,7 @@ class UsersController {
 
             const userId = req.userId;
             const userProfile = await Users.findByPk(userId, {
-                attributes: ['firstName', 'lastName', 'email', [sequelize.literal(`CONCAT('users/user_',Users.id,'/', photo)`), 'photo'], 'isOauth'],
+                attributes: ['firstName', 'lastName', 'email', [sequelize.literal(`CONCAT('users/user_',Users.id,'/', photo)`), 'photo'], 'isOauth','status'],
 
                 include: [
                     {
@@ -235,7 +236,6 @@ class UsersController {
                 await sendRegistrationEmail(email, html);
                 await user.update({ status: 'pending', veryfication: veryfication });
             }
-
             if (file) {
                 const destFolder = `public/users/user_${userId}`;
 
@@ -276,7 +276,7 @@ class UsersController {
         try {
 
             const { email } = req.body;
-
+            console.log(email)
             const user = await Users.findOne({
                 where: { email },
                 attributes: { exclude: ['veryfication', 'createdAt', 'updatedAt'] }
@@ -388,7 +388,7 @@ class UsersController {
 
         try {
 
-            const {password, newPassword} = req.body;
+            const {password, ...data} = req.body;
 
             const userId = req.userId;
 
@@ -398,7 +398,6 @@ class UsersController {
                     password:Users.passwordHash(password)
                 }
             })
-
             if(!user){
                 throw HttpError(404, {
                     errors: {
@@ -406,8 +405,19 @@ class UsersController {
                     }
                 })
             }
+            const  {value,error} =  usersSchema.updatePassword.validate(data,{
+                abortEarly: false,
+            })
+            if(error){
+                const errors = {};
+                error.details.forEach(d => {
+                    const textRemove = d.message.replace(`"${d.path}"`,'')
+                    _.set(errors, d.path, textRemove)
+                });
+              throw  HttpError(422, { errors })
+            }
 
-            await user.update({ password: newPassword }, { where: { id: userId } })
+            await user.update({ password: value.newPassword }, { where: { id: userId } })
 
             res.json({
                 status:'ok',

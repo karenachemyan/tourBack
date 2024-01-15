@@ -5,16 +5,81 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ebcbba47-4bcd-4895-a579-a049da2f803b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_12_2023_12_06_am_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_12_2023_12_06_am__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_30_11_2023_11_59_pm_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_30_11_2023_11_59_pm__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_3_12_2023_1_40_pm_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_3_12_2023_1_40_pm__Changes_.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_1/6151af01-fbf1-45ed-96ca-7777ebe28c5a-gyumri.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_1/6151af01-fbf1-45ed-96ca-7777ebe28c5a-gyumri.jpg@2x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_1/6151af01-fbf1-45ed-96ca-7777ebe28c5a-gyumri.jpg@3x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_10/85992abf-d350-4f7f-bd90-b205839c0d2e-aragacotn.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_10/85992abf-d350-4f7f-bd90-b205839c0d2e-aragacotn.jpg@2x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_10/85992abf-d350-4f7f-bd90-b205839c0d2e-aragacotn.jpg@3x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_2/8870b1af-1030-4f95-af14-0e1bd74f0b95-sanahin-armenia-1-large.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_2/8870b1af-1030-4f95-af14-0e1bd74f0b95-sanahin-armenia-1-large.jpg@2x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_2/8870b1af-1030-4f95-af14-0e1bd74f0b95-sanahin-armenia-1-large.jpg@3x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_3/958e7f02-32fd-410c-bf7a-4e00010a64c6-tavush.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_3/958e7f02-32fd-410c-bf7a-4e00010a64c6-tavush.jpg@2x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_3/958e7f02-32fd-410c-bf7a-4e00010a64c6-tavush.jpg@3x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_4/a4e45187-2a4d-4c9c-939c-67fb3b46afe3-sevan.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_4/a4e45187-2a4d-4c9c-939c-67fb3b46afe3-sevan.jpg@2x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_4/a4e45187-2a4d-4c9c-939c-67fb3b46afe3-sevan.jpg@3x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_5/4c6c7743-b2a1-4574-b303-6d068d7578d3-garni.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_5/4c6c7743-b2a1-4574-b303-6d068d7578d3-garni.jpg@2x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_5/4c6c7743-b2a1-4574-b303-6d068d7578d3-garni.jpg@3x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_6/91e989c2-2845-426e-aa59-91f635026960-armavir.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_6/91e989c2-2845-426e-aa59-91f635026960-armavir.jpg@2x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_6/91e989c2-2845-426e-aa59-91f635026960-armavir.jpg@3x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_7/795ac452-d240-474a-87e4-07e90de97de0-ararat.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_7/795ac452-d240-474a-87e4-07e90de97de0-ararat.jpg@2x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_7/795ac452-d240-474a-87e4-07e90de97de0-ararat.jpg@3x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_8/687c6a5f-e170-4a0b-b743-f570ecf0e379-vayocdzor.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_8/687c6a5f-e170-4a0b-b743-f570ecf0e379-vayocdzor.jpg@2x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_8/687c6a5f-e170-4a0b-b743-f570ecf0e379-vayocdzor.jpg@3x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_9/2541b5e4-7b2c-4322-b6a3-0cf1eb8f3ce4-tatev-monastery.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_9/2541b5e4-7b2c-4322-b6a3-0cf1eb8f3ce4-tatev-monastery.jpg@2x.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/toures/destinations/destination_9/2541b5e4-7b2c-4322-b6a3-0cf1eb8f3ce4-tatev-monastery.jpg@3x.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/UsersController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/UsersController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middlewares/validate.js" beforeDir="false" afterPath="$PROJECT_DIR$/middlewares/validate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/19f5c562-8b3b-489f-a800-3246a7808813-culturalTour.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/19f5c562-8b3b-489f-a800-3246a7808813-culturalTour.png.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/3f3ab06e-79de-44ad-adde-e5ea3ce4f59c-EkoTour.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/3f3ab06e-79de-44ad-adde-e5ea3ce4f59c-EkoTour.png.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/d5ab6371-fef3-4ee9-98f0-ce86a6b48b93-agroTour.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/d5ab6371-fef3-4ee9-98f0-ce86a6b48b93-agroTour.png.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/f179cbdd-e746-4247-aaa8-c7843de1f680-GastroTour.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/f179cbdd-e746-4247-aaa8-c7843de1f680-GastroTour.png.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_1/5f349d5f-4e94-4fad-8d2c-fee6f586b8ad-1648639414_d5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_1/5f349d5f-4e94-4fad-8d2c-fee6f586b8ad-1648639414_d5.jpg@2x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_1/5f349d5f-4e94-4fad-8d2c-fee6f586b8ad-1648639414_d5.jpg@3x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_10/1baac778-6eeb-4bf5-9b86-181fdade0ea1-muttergotteskirche-2120m.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_10/1baac778-6eeb-4bf5-9b86-181fdade0ea1-muttergotteskirche-2120m.jpg@2x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_10/1baac778-6eeb-4bf5-9b86-181fdade0ea1-muttergotteskirche-2120m.jpg@3x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_12/f1783d34-6b5d-4f1d-adb5-120d64fc605c-bild-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_12/f1783d34-6b5d-4f1d-adb5-120d64fc605c-bild-1.jpg@2x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_12/f1783d34-6b5d-4f1d-adb5-120d64fc605c-bild-1.jpg@3x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_2/e0e844d1-e9cf-4f98-a13b-4a615154dba8-Best-places-to-visit-in-Lori-3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_2/e0e844d1-e9cf-4f98-a13b-4a615154dba8-Best-places-to-visit-in-Lori-3.jpg@2x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_2/e0e844d1-e9cf-4f98-a13b-4a615154dba8-Best-places-to-visit-in-Lori-3.jpg@3x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_3/4b1c1a55-0d36-4560-a6ed-0fda57db2545-tavush-province-of-armenia-1-600.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_3/4b1c1a55-0d36-4560-a6ed-0fda57db2545-tavush-province-of-armenia-1-600.jpg@2x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_3/4b1c1a55-0d36-4560-a6ed-0fda57db2545-tavush-province-of-armenia-1-600.jpg@3x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_4/7ec8c5f2-fc32-47bb-b835-458861775f8d-1612773558.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_4/7ec8c5f2-fc32-47bb-b835-458861775f8d-1612773558.jpg@2x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_4/7ec8c5f2-fc32-47bb-b835-458861775f8d-1612773558.jpg@3x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_5/9abac7a1-24c5-4ad6-85e2-8b146645b260-Գառնի,_ArmAg_(12).jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_5/9abac7a1-24c5-4ad6-85e2-8b146645b260-Գառնի,_ArmAg_(12).jpg@2x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_5/9abac7a1-24c5-4ad6-85e2-8b146645b260-Գառնի,_ArmAg_(12).jpg@3x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_6/a1281514-6d3e-4554-889e-4b827d7a5d31-303.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_6/a1281514-6d3e-4554-889e-4b827d7a5d31-303.jpg@2x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_6/a1281514-6d3e-4554-889e-4b827d7a5d31-303.jpg@3x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_7/73f73fa0-dfb7-414b-b885-07360eb66211-1509362262639618044.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_7/73f73fa0-dfb7-414b-b885-07360eb66211-1509362262639618044.jpg@2x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_7/73f73fa0-dfb7-414b-b885-07360eb66211-1509362262639618044.jpg@3x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_8/4ebbe9a5-68bd-44d4-afc6-7820b245eed4-vayots-dzor-province-of-armenia-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_8/4ebbe9a5-68bd-44d4-afc6-7820b245eed4-vayots-dzor-province-of-armenia-1.jpg@2x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_8/4ebbe9a5-68bd-44d4-afc6-7820b245eed4-vayots-dzor-province-of-armenia-1.jpg@3x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_9/09ca7e3e-171b-4590-b05f-3866749ba5f6-khndzoresk-offers-the.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_9/09ca7e3e-171b-4590-b05f-3866749ba5f6-khndzoresk-offers-the.jpg@2x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/toures/destinations/destination_9/09ca7e3e-171b-4590-b05f-3866749ba5f6-khndzoresk-offers-the.jpg@3x.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/schema/usersSchema.js" beforeDir="false" afterPath="$PROJECT_DIR$/schema/usersSchema.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +89,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -42,6 +107,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/Desktop/tourBack/public/toures&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -50,6 +116,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\User\Desktop\tourBack\public\toures" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="migrate" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
@@ -81,7 +152,17 @@
       <workItem from="1701374717029" duration="1608000" />
       <workItem from="1701439628982" duration="686000" />
       <workItem from="1701596327558" duration="1021000" />
-      <workItem from="1703954739769" duration="2560000" />
+      <workItem from="1703954739769" duration="11226000" />
+      <workItem from="1704556507225" duration="681000" />
+      <workItem from="1704647692231" duration="274000" />
+      <workItem from="1704721065887" duration="8350000" />
+      <workItem from="1704743017993" duration="1814000" />
+      <workItem from="1704814642746" duration="5297000" />
+      <workItem from="1704828268548" duration="4967000" />
+      <workItem from="1704983080468" duration="8225000" />
+      <workItem from="1705073643592" duration="1882000" />
+      <workItem from="1705152025622" duration="84000" />
+      <workItem from="1705317753477" duration="5285000" />
     </task>
     <servers />
   </component>

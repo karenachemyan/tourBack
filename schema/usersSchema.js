@@ -28,9 +28,8 @@ export default {
         photo: Joi.string().allow(null, '').default(null)
     }),
     updatePassword: Joi.object({
-        password: Joi.string().required().min(8),
-        newPassword: Joi.string().required().min(8),
-        confirmPassword: Joi.string().valid(Joi.ref('newPassword')).required().label('Confirm password')
+        newPassword: Joi.string().required().trim().min(8),
+        confirmPassword: Joi.string().valid(Joi.ref('newPassword')).required().label('confirmPassword')
             .messages({ 'any.only': '{{#label}} does not match the new password' })
 
     }),
