@@ -239,7 +239,8 @@ class UsersController {
             if (file) {
                 const destFolder = `public/users/user_${userId}`;
 
-                if (user.photo) {
+                if (user.photo !== 'avatar.png') {
+                    console.log(user.photo)
                     await fs.unlink(path.join(destFolder, user.photo));
                 }
 
