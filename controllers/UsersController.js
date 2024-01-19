@@ -260,8 +260,6 @@ class UsersController {
                 await user.update({ firstName, lastName, email });
             }
 
-
-
             res.json({
                 status: 'ok',
                 message: "Profile Successfully updated"
