@@ -27,7 +27,7 @@ class TouresController {
         destinationId
       });
 
-      if (tour) {
+      if (tour && src) {
         await Galleries.bulkCreate(src.map(s => ({
           tourId: tour.id,
           src: s.filename
@@ -115,7 +115,7 @@ class TouresController {
       const { title, description, price, duration, categoryId, destinationId, schedule = [] } = req.body;
       const { featuredImage, src } = req.files;
       const { tourId } = req.params;
-
+      
       const tour = await Toures.findByPk(tourId);
 
       if (!tour) {

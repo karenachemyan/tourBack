@@ -8,9 +8,7 @@ export default {
         duration: Joi.number().min(0).required(),
         categoryId:Joi.number().required(),
         destinationId:Joi.number().required(),
-        schedule:Joi.array().items(Joi.date().iso().required()),
-        featuredImage: Joi.string().allow(null, '').default(null),
-        src: Joi.array().items(Joi.string().allow(null, '')).default(null)
+        schedule:Joi.array().items(Joi.date().iso().required())
     }),
     update: Joi.object({
         title: Joi.string().max(255).required(),
