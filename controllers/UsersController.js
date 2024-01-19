@@ -183,7 +183,7 @@ class UsersController {
 
             const userId = req.userId;
             const userProfile = await Users.findByPk(userId, {
-                attributes: ['firstName', 'lastName', 'email', [sequelize.literal(`CONCAT('users/user_',Users.id,'/', photo)`), 'photo'], 'isOauth','status'],
+                attributes: ['firstName', 'lastName', 'email', 'isOauth','status','photo'],
 
                 include: [
                     {
@@ -193,7 +193,9 @@ class UsersController {
                     }
                 ]
             });
-
+            if(userProfile.photo.search('https') === -1){
+              userProfile.photo =  `users/user_${req.userId}/${userProfile.photo}`
+            }
             const favorites = userProfile.favorites.map(f => (
                 f.tourId
             ))
