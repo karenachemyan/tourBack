@@ -9,7 +9,9 @@ export default {
         categoryId:Joi.number().required(),
         destinationId:Joi.number().required(),
         schedule:Joi.array().items(Joi.date().iso().required()),
-        featuredImage: Joi.array().items(Joi.string()) ,
+        featuredImage: Joi.array().items(Joi.string()).messages({
+            'array.base': 'Featured image are required'
+        }),
         src: Joi.string().allow(null, '').default(null)
     }),
     update: Joi.object({
