@@ -9,7 +9,7 @@ export default {
         categoryId:Joi.number().required(),
         destinationId:Joi.number().required(),
         schedule:Joi.array().items(Joi.date().iso().required()),
-        featuredImage: Joi.string().allow(null, '').default(null) ,
+        featuredImage: Joi.array().items(Joi.string()) ,
         src: Joi.string().allow(null, '').default(null)
     }),
     update: Joi.object({
