@@ -57,16 +57,18 @@ class TouresController {
 
       await resizeImages(featuredImage[0].path, root, featuredImage[0].filename, 2);
       await resizeImages(featuredImage[0].path, root, featuredImage[0].filename, 3);
+      
+      if (src) {
+        src.map(async (s) => {
+          await sharp(s.path)
+            .rotate()
+            .resize({ width: 400 })
+            .toFile(path.join(galleryPath, s.filename));
 
-      src.map(async (s) => {
-        await sharp(s.path)
-          .rotate()
-          .resize({ width: 400 })
-          .toFile(path.join(galleryPath, s.filename));
-
-        await resizeImages(s.path, galleryPath, s.filename, 2);
-        await resizeImages(s.path, galleryPath, s.filename, 3);
-      });
+          await resizeImages(s.path, galleryPath, s.filename, 2);
+          await resizeImages(s.path, galleryPath, s.filename, 3);
+        });
+      }
 
       const createdTour = await Toures.findOne({
         where: { id: tour.id },
@@ -83,7 +85,7 @@ class TouresController {
           },
           {
             model: Galleries,
-            required: true,
+            required: false,
             attributes: [[sequelize.literal(`CONCAT('toures/gallery/tour_${tour.id}/', src)`), 'src']]
           },
           {
@@ -115,7 +117,7 @@ class TouresController {
       const { title, description, price, duration, categoryId, destinationId, schedule = [] } = req.body;
       const { featuredImage, src } = req.files;
       const { tourId } = req.params;
-      
+
       const tour = await Toures.findByPk(tourId);
 
       if (!tour) {
@@ -129,8 +131,6 @@ class TouresController {
       const root = path.resolve('public/toures');
 
       let featured = tour.featuredImage;
-
-      
 
       if (featuredImage) {
         const ext = path.extname(featured);
@@ -155,7 +155,7 @@ class TouresController {
         description,
         price,
         duration,
-        featuredImage:featured,
+        featuredImage: featured,
         categoryId,
         destinationId
       });
@@ -166,8 +166,8 @@ class TouresController {
       if (!fss.existsSync(tourFolder)) {
         fss.mkdirSync(tourFolder)
       }
-      
-      if(src){
+
+      if (src) {
         await Galleries.bulkCreate(src.map(s => ({
           tourId: tour.id,
           src: s.filename
@@ -178,7 +178,7 @@ class TouresController {
             .rotate()
             .resize({ width: 400 })
             .toFile(path.join(galleryPath, s.filename));
-  
+
           await resizeImages(s.path, galleryPath, s.filename, 2);
           await resizeImages(s.path, galleryPath, s.filename, 3);
         });
@@ -372,8 +372,8 @@ class TouresController {
         attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage'], [
           sequelize.literal(`(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = Toures.id)`),
           'rating']],
-          limit,
-          offset
+        limit,
+        offset
       })
 
       const totalCount = await Toures.count({ where: { destinationId: destId } });
@@ -440,8 +440,8 @@ class TouresController {
         attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage'], [
           sequelize.literal(`(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = Toures.id)`),
           'rating']],
-          limit,
-          offset
+        limit,
+        offset
       })
 
       const totalCount = await Toures.count({ where: { categoryId: catId } });
