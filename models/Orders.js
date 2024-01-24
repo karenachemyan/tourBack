@@ -4,7 +4,17 @@ import Users from './Users.js';
 import TourSchedules from './TourSchedules.js'
 
 class Orders extends Model {
+    get participants() {
+        return this.adult + this.children3to10 + this.children11up;
+    }
 
+    static init(modelAttributes, modelOptions) {
+        super.init(modelAttributes, modelOptions);
+        this.addHook('beforeSave', (order, options) => {
+            order.participants = order.adult + order.children3to10 + order.children11up;
+        });
+        return this;
+    }
 }
 
 Orders.init({
@@ -17,6 +27,18 @@ Orders.init({
     totalAmount: {
         type: DataTypes.FLOAT(10, 2),
         allowNull: false,
+    },
+    adult: {
+        type: DataTypes.INTEGER(3),
+        defaultValue: 0
+    },
+    children3to10: {
+        type: DataTypes.INTEGER(3),
+        defaultValue: 0
+    },
+    children11up: {
+        type: DataTypes.INTEGER(3),
+        defaultValue: 0
     },
     participants: {
         type: DataTypes.INTEGER(3),
@@ -55,5 +77,7 @@ Orders.belongsTo(TourSchedules,
 
 Users.hasMany(Orders, { foreignKey: "userId" });
 TourSchedules.hasMany(Orders, { foreignKey: "tourScheduleId" });
+
+Orders.sync({alter:true})
 
 export default Orders

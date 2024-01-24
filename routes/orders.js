@@ -6,6 +6,6 @@ import OrdersController from "../controllers/OrdersController.js";
 const router = Router();
 
 
-router.post('/order/:tourId',validate(ordersSchema.order),OrdersController.order);
+router.post('/order/:id',validate(ordersSchema.order),OrdersController.order);
 
 export default router
