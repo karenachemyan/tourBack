@@ -9,6 +9,8 @@ router.post('/create/:tourId',validate(tourStepsSchema.create),TourStepsControll
 
 router.put('/update/:id', validate(tourStepsSchema.update), TourStepsController.update);
 
-router.delete('/delete/:id', TourStepsController.delete)
+router.delete('/delete/:id', TourStepsController.delete);
+
+router.get('/list/:tourId',TourStepsController.getSteps)
 
 export default router;

@@ -102,6 +102,35 @@ class TourStepsController{
         }
     }
 
+    static async getSteps(req,res,next){
+        try{
+
+            const {tourId} = req.params;
+
+            const steps = await TourSteps.findAll({
+                where:{tourId}
+            })
+
+            if(!steps){
+                throw HttpError(422, {
+                    errors: {
+                        error: 'No Tour Steps found'
+                    }
+                })
+            }
+
+            res.json({
+                status:'ok',
+                steps
+            })
+
+        }
+        catch(e){
+            next(e)
+        }
+
+    }
+
 }
 
 export default TourStepsController;

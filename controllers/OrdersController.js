@@ -6,7 +6,7 @@ class OrdersController{
     static async order(req,res,next){
         try{
 
-            const {tourDate, adult, children3to10, children11up, gid} = req.body;
+            const {scheduleId, adult, children3to10, children11up, gid} = req.body;
             const {id} = req.params;
             const userId = req.userId;
 
