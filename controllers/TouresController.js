@@ -15,7 +15,7 @@ class TouresController {
     try {
 
       const { title, description, price, duration, categoryId, destinationId, schedule = [] } = req.body;
-      const { featuredImage, src } = req.files;
+      const { featuredImage, gallery } = req.files;
 
       const tour = await Toures.create({
         title,
@@ -27,11 +27,14 @@ class TouresController {
         destinationId
       });
 
-      if (tour && src) {
-        await Galleries.bulkCreate(src.map(s => ({
+      console.log(gallery)
+
+      if (tour && gallery) {
+        await Galleries.bulkCreate(gallery.map(s => ({
           tourId: tour.id,
           src: s.filename
         })));
+        
       }
 
       if (schedule.length) {
@@ -58,8 +61,8 @@ class TouresController {
       await resizeImages(featuredImage[0].path, root, featuredImage[0].filename, 2);
       await resizeImages(featuredImage[0].path, root, featuredImage[0].filename, 3);
       
-      if (src) {
-        src.map(async (s) => {
+      if (gallery) {
+        gallery.map(async (s) => {
           await sharp(s.path)
             .rotate()
             .resize({ width: 400 })
@@ -115,7 +118,7 @@ class TouresController {
     try {
 
       const { title, description, price, duration, categoryId, destinationId, schedule = [] } = req.body;
-      const { featuredImage, src } = req.files;
+      const { featuredImage, gallery } = req.files;
       const { tourId } = req.params;
 
       const tour = await Toures.findByPk(tourId);
@@ -167,13 +170,13 @@ class TouresController {
         fss.mkdirSync(tourFolder)
       }
 
-      if (src) {
-        await Galleries.bulkCreate(src.map(s => ({
+      if (gallery) {
+        await Galleries.bulkCreate(gallery.map(s => ({
           tourId: tour.id,
-          src: s.filename
+          gallery: s.filename
         })));
 
-        src.map(async (s) => {
+        gallery.map(async (s) => {
           await sharp(s.path)
             .rotate()
             .resize({ width: 400 })

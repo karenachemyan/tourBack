@@ -8,9 +8,9 @@ const router = Router();
 
 router.post(
     '/create',
-    uploader([]).fields([
+    uploader.image.fields([
         {name: "featuredImage", maxCount: 1},
-        {name: "src"}
+        {name: "gallery", maxCount: 10}
     ]),
     validate(touresSchema.create),
     TouresController.create
@@ -18,7 +18,7 @@ router.post(
 
 router.put('/update/:tourId' , uploader([]).fields([
     {name: "featuredImage", maxCount: 1},
-    {name: "src"}
+    {name: "gallery"}
 ]),
 validate(touresSchema.update),TouresController.update)
 
