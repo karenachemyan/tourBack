@@ -25,7 +25,7 @@ export default {
         destinationId:Joi.number().required(),
         schedule:Joi.array().items(Joi.date().iso().allow(null,'')),
         featuredImage: Joi.string().allow(null, '').default(null) ,
-        gallery: Joi.string().allow(null, '').default(null)  
+        gallery: Joi.array().items(Joi.string().allow(null,'')),
     }),
 
 }

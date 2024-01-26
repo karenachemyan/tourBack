@@ -18,7 +18,8 @@ router.post(
 
 router.put('/update/:tourId' , uploader([]).fields([
     {name: "featuredImage", maxCount: 1},
-    {name: "gallery"}
+    {name: "gallery[]", maxCount:10}
+
 ]),
 validate(touresSchema.update),TouresController.update)
 
