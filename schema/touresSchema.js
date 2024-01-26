@@ -12,7 +12,9 @@ export default {
         featuredImage: Joi.array().items(Joi.string()).messages({
             'array.base': 'Featured image are required'
         }),
-        gallery: Joi.array().allow(null,'')
+        gallery: Joi.array().items(Joi.string()).messages({
+            'array.base': 'Gallery image are required'
+        })
     }),
     update: Joi.object({
         title: Joi.string().max(255).required(),

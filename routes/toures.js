@@ -7,11 +7,11 @@ import uploader from "../middlewares/uploader.js";
 const router = Router();
 
 router.post(
-    '/create',
+    '/create',    
     uploader.image.fields([
         {name: "featuredImage", maxCount: 1},
-        {name: "gallery", maxCount: 10}
-    ]),
+        {name: "gallery[]", maxCount:10}
+    ]),    
     validate(touresSchema.create),
     TouresController.create
 );

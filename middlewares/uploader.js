@@ -16,7 +16,6 @@ export default function uploader(fileTypes=[]) {
       fileSize: 1024 * 1024 * 10,
     },
     fileFilter: (req, file, cb) => {
-      
       if (!file || !file.mimetype || !file.originalname) {        
         cb(null, true);
         return;
@@ -34,4 +33,4 @@ export default function uploader(fileTypes=[]) {
   })
 }
 
-uploader.image = uploader(['image/png', 'image/jpeg','image/svg+xml']);
+uploader.image = uploader(['image/png', 'image/jpeg','image/jpg','image/svg+xml']);
