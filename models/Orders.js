@@ -78,6 +78,4 @@ Orders.belongsTo(TourSchedules,
 Users.hasMany(Orders, { foreignKey: "userId" });
 TourSchedules.hasMany(Orders, { foreignKey: "tourScheduleId" });
 
-Orders.sync({alter:true})
-
 export default Orders
