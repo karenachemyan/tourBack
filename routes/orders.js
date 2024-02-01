@@ -8,4 +8,6 @@ const router = Router();
 
 router.post('/order/:id',validate(ordersSchema.order),OrdersController.order);
 
+router.post('/checkout', OrdersController.checkout);
+
 export default router

@@ -58,7 +58,13 @@ Orders.init({
     {
         sequelize,
         tableName: 'orders',
-        modelName: 'orders'
+        modelName: 'orders',
+        indexes: [
+            {
+                unique: true,
+                fields: ['userId', 'tourScheduleId']
+            }
+        ]
     });
 
 Orders.belongsTo(Users,
