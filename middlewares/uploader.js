@@ -6,7 +6,7 @@ export default function uploader(fileTypes=[]) {
  
   return multer({
     storage: multer.diskStorage({
-      filename: function (req, file, cb) {
+      filename: function (req, file, cb) {     
        
         const filePath = `${uuidV4()}-${file.originalname}`;
         cb(null, filePath)
@@ -33,4 +33,4 @@ export default function uploader(fileTypes=[]) {
   })
 }
 
-uploader.image = uploader(['image/png', 'image/jpeg','image/jpg','image/svg+xml']);
+uploader.image = uploader(['image/png', 'image/jpeg','image/jpg','image/svg+xml','image/webp']);

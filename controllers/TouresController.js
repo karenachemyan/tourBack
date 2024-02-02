@@ -13,8 +13,7 @@ class TouresController {
 
   static async create(req, res, next) {
     try {
-      console.log(req.body, 'body');
-      console.log(req.files, 'key');
+      
       const { title, description, price, duration, categoryId, destinationId, schedule = [] } = req.body;
       const { featuredImage } = req.files;
 
@@ -29,8 +28,6 @@ class TouresController {
         categoryId,
         destinationId
       });
-
-      console.log(gallery)
 
       if (tour && gallery) {
         await Galleries.bulkCreate(gallery.map(s => ({
@@ -111,9 +108,7 @@ class TouresController {
       })
 
     }
-    catch (e) {
-      console.log('error', e)
-      console.log(e)
+    catch (e) {     
       next(e)
     }
   }
