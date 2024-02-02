@@ -27,7 +27,8 @@ export default function uploader(fileTypes=[]) {
         return
       }      
 
-      cb(new HttpError(422), false);
+      const errorMessage = `File type '${file.mimetype}' is not allowed.`;
+      cb(new HttpError(422, errorMessage), false);
       
     }
   })
