@@ -193,9 +193,14 @@ class UsersController {
                     }
                 ]
             });
-            if(userProfile.photo.search('https') === -1){
-              userProfile.photo =  `users/user_${req.userId}/${userProfile.photo}`
+
+            if (userProfile.photo.search('https') === -1) {
+                if(fss.existsSync(`public/users/user_${userId}`)){
+                    userProfile.photo = `users/user_${req.userId}/${userProfile.photo}`
+                }
+            
             }
+
             const favorites = userProfile.favorites.map(f => (
                 f.tourId
             ))
