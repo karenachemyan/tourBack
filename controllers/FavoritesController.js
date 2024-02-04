@@ -55,7 +55,7 @@ class FavoritesController {
             const userId = req.userId;
 
             const { page = 1 } = req.query;
-            const limit = 2;
+            const limit = 10;
             const offset = (page - 1) * limit;
 
             const fovorites = await Toures.findAll({

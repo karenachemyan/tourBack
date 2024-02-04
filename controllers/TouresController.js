@@ -624,6 +624,63 @@ class TouresController {
     }
   }
 
+  static async populars(req, res, next) {
+    try {
+      const { page = 1 } = req.query;
+      const limit = 10;
+      const offset = (page - 1) * limit;
+      const tours = await Toures.findAll({
+        include: [
+          {
+            model: Categories,
+            required: true,
+            attributes: ['title']
+          },
+          {
+            model: Destinations,
+            required: true,
+            attributes: ['title']
+          },
+
+          {
+            model: Galleries,
+            required: false,
+            attributes: [[sequelize.literal(`CONCAT('toures/gallery/tour_', Toures.id, '/', src)`), 'src']]
+          },
+          {
+            model: TourSchedules,
+            required: true,
+            attributes: ['date']
+          },
+          {
+            model: TourSteps,
+            required: false,
+            attributes: ['title', 'description']
+          },
+
+        ],
+        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage'], [
+          sequelize.literal(`(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = Toures.id)`),
+          'rating']],
+        having: sequelize.literal('(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = Toures.id) > 4'),
+        limit,
+        offset,
+      })
+
+      const totalCount = await Toures.count();
+
+      res.json({
+        status: 'ok',
+        tours,
+        total: tours.length,
+        pages: Math.ceil(totalCount / limit)
+      })
+    }
+    catch (e) {
+      next(e)
+    }
+  }
+
 
 }
 

@@ -13,7 +13,8 @@ const EXCLUDES = [
   'POST:/users/oauth',
   'POST:/users/password-update',
   'GET:/destinations/list',
-  'GET:/toures/list'
+  'GET:/toures/list',
+  'GET:/toures/populars'
 ];
 
 export default function authorization(req, res, next) {

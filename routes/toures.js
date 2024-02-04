@@ -31,5 +31,6 @@ router.get('/list',TouresController.list)
 router.delete('/remove-gallery-image', TouresController.removeGalleryImage)
 router.delete('/remove-schedule', TouresController.removeTourSchedule)
 router.patch('/schedule-update',TouresController.scheduleUpdate)
+router.get('/populars',TouresController.populars)
 
 export default router;
