@@ -7,5 +7,6 @@ const router = Router();
 
 
 router.post('/add',validate(favoritesSchema.add),FavoritesController.add);
+router.get('/get-favorites',FavoritesController.getFavorites);
 
 export default router
