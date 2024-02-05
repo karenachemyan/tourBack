@@ -13,12 +13,12 @@ class TouresController {
 
   static async create(req, res, next) {
     try {
-      
+
       const { title, description, price, duration, categoryId, destinationId, schedule = [] } = req.body;
       const { featuredImage } = req.files;
 
       const gallery = req.files['gallery[]'];
-    
+
       const tour = await Toures.create({
         title,
         description,
@@ -34,7 +34,7 @@ class TouresController {
           tourId: tour.id,
           src: s.filename
         })));
-        
+
       }
 
       if (schedule.length) {
@@ -60,7 +60,7 @@ class TouresController {
 
       await resizeImages(featuredImage[0].path, root, featuredImage[0].filename, 2);
       await resizeImages(featuredImage[0].path, root, featuredImage[0].filename, 3);
-      
+
       if (gallery) {
         gallery.map(async (s) => {
           await sharp(s.path)
@@ -108,7 +108,7 @@ class TouresController {
       })
 
     }
-    catch (e) {     
+    catch (e) {
       next(e)
     }
   }
@@ -295,12 +295,12 @@ class TouresController {
           {
             model: Galleries,
             required: false,
-            attributes: [[sequelize.literal(`CONCAT('toures/gallery/tour_${id}/', src)`), 'src']]
+            attributes: [[sequelize.literal(`CONCAT('toures/gallery/tour_${id}/', src)`), 'src'],'id']
           },
           {
             model: TourSchedules,
             required: true,
-            attributes: ['date']
+            attributes: ['id','date']
           },
           {
             model: TourSteps,
@@ -667,13 +667,13 @@ class TouresController {
         offset,
       })
 
-      const totalCount = await Toures.count();
+
 
       res.json({
         status: 'ok',
         tours,
         total: tours.length,
-        pages: Math.ceil(totalCount / limit)
+        pages: Math.ceil(tours.length / limit)
       })
     }
     catch (e) {

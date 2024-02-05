@@ -70,28 +70,28 @@ class FavoritesController {
                     model: Destinations,
                     required: true,
                     attributes: ['title']
-                  },
-        
-                  {
+                },
+
+                {
                     model: Galleries,
                     required: false,
                     attributes: [[sequelize.literal(`CONCAT('toures/gallery/tour_', Toures.id, '/', src)`), 'src']]
-                  },
-                  {
+                },
+                {
                     model: TourSchedules,
                     required: true,
                     attributes: ['date']
-                  },
-                  {
+                },
+                {
                     model: TourSteps,
                     required: false,
                     attributes: ['title', 'description']
-                  },
-            
-            ],
-            attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage'], [
-                sequelize.literal(`(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = Toures.id)`),
-                'rating']],
+                },
+
+                ],
+                attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage'], [
+                    sequelize.literal(`(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = Toures.id)`),
+                    'rating']],
                 limit: limit,
                 offset: offset,
             })
