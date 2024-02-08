@@ -183,7 +183,7 @@ class UsersController {
 
             const userId = req.userId;
             const userProfile = await Users.findByPk(userId, {
-                attributes: ['firstName', 'lastName', 'email', 'isOauth','status','photo'],
+                attributes: ['firstName', 'lastName', 'email', 'isOauth', 'status', 'photo'],
 
                 include: [
                     {
@@ -195,10 +195,10 @@ class UsersController {
             });
 
             if (userProfile.photo.search('https') === -1) {
-                if(fss.existsSync(`public/users/user_${userId}`)){
+                if (fss.existsSync(`public/users/user_${userId}`)) {
                     userProfile.photo = `users/user_${req.userId}/${userProfile.photo}`
                 }
-            
+
             }
 
             const favorites = userProfile.favorites.map(f => (
@@ -394,40 +394,40 @@ class UsersController {
 
         try {
 
-            const {password, ...data} = req.body;
+            const { password, ...data } = req.body;
 
             const userId = req.userId;
 
             const user = await Users.findOne({
-               where:{
-                    id:userId,
-                    password:Users.passwordHash(password)
+                where: {
+                    id: userId,
+                    password: Users.passwordHash(password)
                 }
             })
-            if(!user){
+            if (!user) {
                 throw HttpError(404, {
                     errors: {
                         oldPassword: 'Old Password are Wrong'
                     }
                 })
             }
-            const  {value,error} =  usersSchema.updatePassword.validate(data,{
+            const { value, error } = usersSchema.updatePassword.validate(data, {
                 abortEarly: false,
             })
-            if(error){
+            if (error) {
                 const errors = {};
                 error.details.forEach(d => {
-                    const textRemove = d.message.replace(`"${d.path}"`,'')
+                    const textRemove = d.message.replace(`"${d.path}"`, '')
                     _.set(errors, d.path, textRemove)
                 });
-              throw  HttpError(422, { errors })
+                throw HttpError(422, { errors })
             }
 
             await user.update({ password: value.newPassword }, { where: { id: userId } })
 
             res.json({
-                status:'ok',
-                message:'Password Updated  Successfully'
+                status: 'ok',
+                message: 'Password Updated  Successfully'
             })
 
         }
@@ -435,6 +435,66 @@ class UsersController {
             next(e)
         }
 
+    }
+
+    static async getUsers(req, res, next) {
+        try {
+
+            const { page = 1 } = req.query;
+            const limit = 3;
+            const offset = (page - 1) * limit;
+            const totalCount = await Users.count();
+            const users = await Users.findAll(
+                {
+                    limit,
+                    offset
+                })
+
+            res.json({
+                status: 'ok',
+                users,
+                total: totalCount,
+                pages: Math.ceil(totalCount / limit)
+            })
+
+        }
+        catch (e) {
+            next(e)
+        }
+
+    }
+
+    static async removeUser(req, res, next) {
+        try {
+
+            const {id} = req.params;
+            const user = await Users.findByPk(id);
+
+            if (!user) {
+                throw HttpError(422, {
+                    errors: {
+                        error: 'No User found'
+                    }
+                })
+            }
+
+            
+            if (user.photo !== 'avatar.png') {
+                const photo = path.resolve(`public/users/user_${id}`);
+                await fs.rm(photo, { recursive: true, force: true })
+            }
+
+            await user.destroy();
+
+            res.json({
+                status:'ok',
+                user,
+            })
+
+        }
+        catch (e) {
+            next(e)
+        }
     }
 }
 export default UsersController

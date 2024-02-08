@@ -31,4 +31,8 @@ router.put('/profile-update', uploader.image.single('photo'), validate(usersSche
 
 router.put('/update-password', UsersController.changeOldPassword)
 
+router.get('/get-users', UsersController.getUsers)
+
+router.delete('/delete/:id', UsersController.removeUser)
+
 export default router;
