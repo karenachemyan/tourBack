@@ -441,7 +441,7 @@ class UsersController {
         try {
 
             const { page = 1 } = req.query;
-            const limit = 3;
+            const limit = 10;
             const offset = (page - 1) * limit;
             const totalCount = await Users.count();
             const users = await Users.findAll(
