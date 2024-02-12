@@ -107,12 +107,12 @@ class OrdersController {
 
   static async checkout(req, res, next) {
     try {
-      const {STRIPE_SECRET_KEY} = process.env
+      const { STRIPE_SECRET_KEY } = process.env
 
-      const {orderId} = req.body; 
       const userId = req.userId;
-      
-      const order = await Orders.findByPk(orderId);
+
+
+      const order = await Orders.findOne({ where: { userId } });
 
       if (!order) {
         throw HttpError(404, {
@@ -122,16 +122,16 @@ class OrdersController {
         });
       }
 
-      
+
       const stripe = stripeModule(STRIPE_SECRET_KEY);
 
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: order.totalAmount * 100, 
-        currency: 'amd', 
-        description: `Payment for Order #${orderId}`,
+        amount: order.totalAmount * 100,
+        currency: 'amd',
+        description: `Payment for Order #${order.id}`,
         metadata: {
-          order_id: orderId,
-          user_id: userId 
+          order_id: order.id,
+          user_id: userId
         },
       });
 
