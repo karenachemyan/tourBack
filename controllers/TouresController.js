@@ -305,7 +305,7 @@ class TouresController {
           {
             model: TourSteps,
             required: false,
-            attributes: ['title', 'description']
+            attributes: ['id','title', 'description']
           },
 
         ],
@@ -363,12 +363,12 @@ class TouresController {
           {
             model: TourSchedules,
             required: true,
-            attributes: ['date']
+            attributes: ['id','date']
           },
           {
             model: TourSteps,
             required: false,
-            attributes: ['title', 'description']
+            attributes: ['id','title', 'description']
           },
 
         ],
@@ -431,12 +431,12 @@ class TouresController {
           {
             model: TourSchedules,
             required: true,
-            attributes: ['date']
+            attributes: ['id','date']
           },
           {
             model: TourSteps,
             required: false,
-            attributes: ['title', 'description']
+            attributes: ['id','title', 'description']
           },
 
         ],
@@ -497,12 +497,12 @@ class TouresController {
           {
             model: TourSchedules,
             required: true,
-            attributes: ['date']
+            attributes: ['id','date']
           },
           {
             model: TourSteps,
             required: false,
-            attributes: ['title', 'description']
+            attributes: ['id','title', 'description']
           },
 
         ],
