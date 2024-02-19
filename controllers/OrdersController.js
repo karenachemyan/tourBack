@@ -111,7 +111,6 @@ class OrdersController {
 
       const userId = req.userId;
 
-
       const order = await Orders.findOne({ where: { userId } });
 
       if (!order) {
@@ -121,7 +120,6 @@ class OrdersController {
           }
         });
       }
-
 
       const stripe = stripeModule(STRIPE_SECRET_KEY);
 

@@ -284,12 +284,12 @@ class TouresController {
           {
             model: Categories,
             required: true,
-            attributes: ['title']
+            attributes: ['id','title']
           },
           {
             model: Destinations,
             required: true,
-            attributes: ['title']
+            attributes: ['id','title']
           },
 
           {
@@ -347,12 +347,12 @@ class TouresController {
           {
             model: Categories,
             required: true,
-            attributes: ['title']
+            attributes: ['id','title']
           },
           {
             model: Destinations,
             required: true,
-            attributes: ['title']
+            attributes: ['id','title']
           },
 
           {
@@ -415,12 +415,12 @@ class TouresController {
           {
             model: Categories,
             required: true,
-            attributes: ['title']
+            attributes: ['id','title']
           },
           {
             model: Destinations,
             required: true,
-            attributes: ['title']
+            attributes: ['id','title']
           },
 
           {
@@ -481,12 +481,12 @@ class TouresController {
           {
             model: Categories,
             required: true,
-            attributes: ['title']
+            attributes: ['id','title']
           },
           {
             model: Destinations,
             required: true,
-            attributes: ['title']
+            attributes: ['id','title']
           },
 
           {
