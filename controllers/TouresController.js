@@ -6,6 +6,7 @@ import HttpError from "http-errors";
 import resizeImages from "../helper/resizeImages";
 import fs from "fs/promises";
 import fss from "fs"
+import { Op } from "sequelize";
 
 const { BASE_URL } = process.env;
 
@@ -284,28 +285,28 @@ class TouresController {
           {
             model: Categories,
             required: true,
-            attributes: ['id','title']
+            attributes: ['id', 'title']
           },
           {
             model: Destinations,
             required: true,
-            attributes: ['id','title']
+            attributes: ['id', 'title']
           },
 
           {
             model: Galleries,
             required: false,
-            attributes: [[sequelize.literal(`CONCAT('toures/gallery/tour_${id}/', src)`), 'src'],'id']
+            attributes: [[sequelize.literal(`CONCAT('toures/gallery/tour_${id}/', src)`), 'src'], 'id']
           },
           {
             model: TourSchedules,
             required: true,
-            attributes: ['id','date']
+            attributes: ['id', 'date']
           },
           {
             model: TourSteps,
             required: false,
-            attributes: ['id','title', 'description']
+            attributes: ['id', 'title', 'description']
           },
 
         ],
@@ -347,12 +348,12 @@ class TouresController {
           {
             model: Categories,
             required: true,
-            attributes: ['id','title']
+            attributes: ['id', 'title']
           },
           {
             model: Destinations,
             required: true,
-            attributes: ['id','title']
+            attributes: ['id', 'title']
           },
 
           {
@@ -363,12 +364,12 @@ class TouresController {
           {
             model: TourSchedules,
             required: true,
-            attributes: ['id','date']
+            attributes: ['id', 'date']
           },
           {
             model: TourSteps,
             required: false,
-            attributes: ['id','title', 'description']
+            attributes: ['id', 'title', 'description']
           },
 
         ],
@@ -415,12 +416,12 @@ class TouresController {
           {
             model: Categories,
             required: true,
-            attributes: ['id','title']
+            attributes: ['id', 'title']
           },
           {
             model: Destinations,
             required: true,
-            attributes: ['id','title']
+            attributes: ['id', 'title']
           },
 
           {
@@ -431,12 +432,12 @@ class TouresController {
           {
             model: TourSchedules,
             required: true,
-            attributes: ['id','date']
+            attributes: ['id', 'date']
           },
           {
             model: TourSteps,
             required: false,
-            attributes: ['id','title', 'description']
+            attributes: ['id', 'title', 'description']
           },
 
         ],
@@ -481,12 +482,12 @@ class TouresController {
           {
             model: Categories,
             required: true,
-            attributes: ['id','title']
+            attributes: ['id', 'title']
           },
           {
             model: Destinations,
             required: true,
-            attributes: ['id','title']
+            attributes: ['id', 'title']
           },
 
           {
@@ -497,12 +498,12 @@ class TouresController {
           {
             model: TourSchedules,
             required: true,
-            attributes: ['id','date']
+            attributes: ['id', 'date']
           },
           {
             model: TourSteps,
             required: false,
-            attributes: ['id','title', 'description']
+            attributes: ['id', 'title', 'description']
           },
 
         ],
@@ -675,6 +676,91 @@ class TouresController {
         total: tours.length,
         pages: Math.ceil(tours.length / limit)
       })
+    }
+    catch (e) {
+      next(e)
+    }
+  }
+
+  static async search(req, res, next) {
+    try {
+
+      const { search } = req.body;
+      const { page = 1 } = req.query;
+      const limit = 10;
+      const offset = (page - 1) * limit;
+
+      const tours = await Toures.findAll({
+        where: {
+          [Op.or]: [
+            {
+              title: {
+                [Op.like]: `%${search}%`
+              }
+            },
+            {
+              description: {
+                [Op.like]: `%${search}%`
+              }
+            }
+          ]
+        },
+        include: [
+          {
+            model: Categories,
+            required: true,
+            attributes: ['title']
+          },
+          {
+            model: Destinations,
+            required: true,
+            attributes: ['title']
+          },
+
+          {
+            model: Galleries,
+            required: false,
+            attributes: [[sequelize.literal(`CONCAT('toures/gallery/tour_', Toures.id, '/', src)`), 'src']]
+          },
+          {
+            model: TourSchedules,
+            required: true,
+            attributes: ['date']
+          },
+          {
+            model: TourSteps,
+            required: false,
+            attributes: ['title', 'description']
+          },
+
+        ],
+        attributes: ['id', 'title', 'description', 'price', 'duration', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage'], [
+          sequelize.literal(`(SELECT ROUND(AVG(rate), 0) FROM rates WHERE tourId = Toures.id)`),
+          'rating']],
+        limit,
+        offset,
+      })
+
+      const totalCount = await Toures.count({ where: { [Op.or]: [
+        {
+          title: {
+            [Op.like]: `%${search}%`
+          }
+        },
+        {
+          description: {
+            [Op.like]: `%${search}%`
+          }
+        }
+      ] } });
+
+      res.json({
+        status: 'ok',
+        tours,
+        totalCount,
+        pages: Math.ceil(totalCount / limit)
+      })
+
     }
     catch (e) {
       next(e)

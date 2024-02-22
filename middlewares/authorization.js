@@ -16,6 +16,7 @@ const EXCLUDES = [
   'GET:/toures/list',
   'GET:/toures/populars',
   'GET:/users/get-users',
+  'POST:/toures/search'
 ];
 
 export default function authorization(req, res, next) {

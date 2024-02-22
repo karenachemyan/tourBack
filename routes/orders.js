@@ -10,4 +10,6 @@ router.post('/order/:id',validate(ordersSchema.order),OrdersController.order);
 
 router.post('/checkout', OrdersController.checkout);
 
+router.get('/orders-list', OrdersController.getOrders);
+
 export default router

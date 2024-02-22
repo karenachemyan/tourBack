@@ -110,8 +110,9 @@ class OrdersController {
       const { STRIPE_SECRET_KEY } = process.env
 
       const userId = req.userId;
+      const { orderId } = req.body
 
-      const order = await Orders.findOne({ where: { userId } });
+      const order = await Orders.findOne({ where: { userId, id: orderId } });
 
       if (!order) {
         throw HttpError(404, {
@@ -144,6 +145,50 @@ class OrdersController {
 
     } catch (e) {
       next(e);
+    }
+  }
+
+  static async getOrders(req, res, next) {
+    try {
+
+      const userId = req.userId;
+
+      const { page = 1 } = req.query;
+      const limit = 10;
+      const offset = (page - 1) * limit;
+
+      const orders = await Orders.findAll({
+        where: { userId: userId },
+        include: [          
+          {
+            model: TourSchedules,
+            required: true,
+            attributes: ['id', 'date', 'tourId'],
+            include:[
+              {
+                model: Toures,
+                required: true,
+                attributes: ['id', 'title', 'description', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage']],
+              },
+            ]
+          },
+        ],
+        limit,
+        offset,
+      });
+
+      const totalCount = await Orders.count({where:{userId}})
+
+      res.json({
+        status: 'ok',
+        orders,
+        totalCount,
+        pages: Math.ceil(totalCount / limit)
+      })
+
+    }
+    catch (e) {
+      next(e)
     }
   }
 
