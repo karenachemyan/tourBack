@@ -179,6 +179,14 @@ class OrdersController {
 
       const totalCount = await Orders.count({where:{userId}})
 
+      if (!orders) {
+        throw HttpError(422, {
+          errors: {
+            error: 'No Orders found'
+          }
+        })
+      }
+
       res.json({
         status: 'ok',
         orders,
