@@ -110,7 +110,7 @@ class OrdersController {
       const { STRIPE_SECRET_KEY } = process.env
 
       const userId = req.userId;
-      const { orderId } = req.body
+      const { orderId, paymentMethodToken } = req.body
 
       const order = await Orders.findOne({ where: { userId, id: orderId } });
 
@@ -123,7 +123,7 @@ class OrdersController {
       }
 
       const stripe = stripeModule(STRIPE_SECRET_KEY);
-
+      
       const paymentIntent = await stripe.paymentIntents.create({
         amount: order.totalAmount * 100,
         currency: 'amd',
@@ -132,7 +132,17 @@ class OrdersController {
           order_id: order.id,
           user_id: userId
         },
+        //payment_method: paymentMethodToken,
+        //confirm: true 
       });
+
+      /*if (paymentIntent.status !== 'succeeded') {
+        throw HttpError(500, {
+          errors: {
+            error: 'Payment failed'
+          }
+        });
+      }*/
 
       await order.update({
         status: 'active'
@@ -146,7 +156,7 @@ class OrdersController {
     } catch (e) {
       next(e);
     }
-  }
+}
 
   static async getOrders(req, res, next) {
     try {
