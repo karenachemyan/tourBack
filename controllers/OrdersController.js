@@ -132,17 +132,17 @@ class OrdersController {
           order_id: order.id,
           user_id: userId
         },
-        payment_method: paymentMethodToken,
-        confirm: true 
+        /*payment_method: paymentMethodToken,
+        confirm: true */
       });
 
-      if (paymentIntent.status !== 'succeeded') {
+      /*if (paymentIntent.status !== 'succeeded') {
         throw HttpError(500, {
           errors: {
             error: 'Payment failed'
           }
         });
-      }
+      }*/
 
       await order.update({
         status: 'active'
@@ -151,6 +151,7 @@ class OrdersController {
       res.json({
         status: 'ok',
         clientSecret: paymentIntent.client_secret,
+        paymentIntent,
       });
 
     } catch (e) {
