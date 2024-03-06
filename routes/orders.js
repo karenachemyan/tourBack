@@ -12,4 +12,8 @@ router.post('/checkout', OrdersController.checkout);
 
 router.get('/orders-list', OrdersController.getOrders);
 
+router.get('/get-order/:id', OrdersController.getOrderById);
+
+router.delete('/delete/:id', OrdersController.deleteOrder)
+
 export default router

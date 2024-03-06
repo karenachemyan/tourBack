@@ -123,7 +123,7 @@ class OrdersController {
       }
 
       const stripe = stripeModule(STRIPE_SECRET_KEY);
-      
+
       const paymentIntent = await stripe.paymentIntents.create({
         amount: order.totalAmount * 100,
         currency: 'amd',
@@ -132,17 +132,7 @@ class OrdersController {
           order_id: order.id,
           user_id: userId
         },
-        /*payment_method: paymentMethodToken,
-        confirm: true */
       });
-
-      /*if (paymentIntent.status !== 'succeeded') {
-        throw HttpError(500, {
-          errors: {
-            error: 'Payment failed'
-          }
-        });
-      }*/
 
       await order.update({
         status: 'active'
@@ -151,13 +141,12 @@ class OrdersController {
       res.json({
         status: 'ok',
         clientSecret: paymentIntent.client_secret,
-        paymentIntent,
       });
 
     } catch (e) {
       next(e);
     }
-}
+  }
 
   static async getOrders(req, res, next) {
     try {
@@ -170,12 +159,12 @@ class OrdersController {
 
       const orders = await Orders.findAll({
         where: { userId: userId },
-        include: [          
+        include: [
           {
             model: TourSchedules,
             required: true,
             attributes: ['id', 'date', 'tourId'],
-            include:[
+            include: [
               {
                 model: Toures,
                 required: true,
@@ -188,7 +177,7 @@ class OrdersController {
         offset,
       });
 
-      const totalCount = await Orders.count({where:{userId}})
+      const totalCount = await Orders.count({ where: { userId } })
 
       if (!orders) {
         throw HttpError(422, {
@@ -203,6 +192,78 @@ class OrdersController {
         orders,
         totalCount,
         pages: Math.ceil(totalCount / limit)
+      })
+
+    }
+    catch (e) {
+      next(e)
+    }
+  }
+
+  static async getOrderById(req, res, next) {
+    try {
+
+      const userId = req.userId;
+      const { id } = req.params;
+
+      const order = await Orders.findOne({
+        where: { userId, id },
+        include: [
+          {
+            model: TourSchedules,
+            required: true,
+            attributes: ['id', 'date', 'tourId'],
+            include: [
+              {
+                model: Toures,
+                required: true,
+                attributes: ['id', 'title', 'description', [sequelize.literal(`CONCAT('toures/', featuredImage)`), 'featuredImage']],
+              },
+            ]
+          },
+        ]
+      });
+
+      if (!order) {
+        throw HttpError(422, {
+          errors: {
+            error: 'No Order found'
+          }
+        })
+      }
+
+
+      res.json({
+        status: 'ok',
+        order
+      })
+
+    }
+    catch (e) {
+      next(e)
+    }
+  }
+
+  static async deleteOrder(req, res, next) {
+    try {
+
+      const {id} = req.params;
+
+      const order = await Orders.findByPk(id);
+
+      if (!order) {
+        throw HttpError(422, {
+          errors: {
+            error: 'No Order found'
+          }
+        })
+      }
+
+      await order.destroy()
+
+      res.json({
+        status:'ok',
+        order
       })
 
     }
